@@ -1,7 +1,7 @@
 package ligaolympica.ui;
 
-import java.util.Scanner;
 import java.util.Random;
+import java.util.Scanner;
 import ligaolympica.battle.Battle;
 import ligaolympica.character.Achiron;
 import ligaolympica.character.Atalyn;
@@ -52,21 +52,14 @@ public class Menu {
                 scanner.nextLine();
 
                 switch (choice) {
-                    case 1:
-                        startGame();
-                        break;
-                    case 2:
-                        startGameAI();
-                        break;
-                    case 3:
-                        showCharacterInfo();
-                        break;
-                    case 4:
+                    case 1 -> startGame();
+                    case 2 -> startGameAI();
+                    case 3 -> showCharacterInfo();
+                    case 4 -> {
                         typewriter("Exiting game. Goodbye!", 30);
                         running = false;
-                        break;
-                    default:
-                        typewriter("Invalid choice. Please enter a number between 1 and 4.", 30);
+                    }
+                    default -> typewriter("Invalid choice. Please enter a number between 1 and 4.", 30);
                 }
             } catch (Exception e) {
                 typewriter("Invalid input. Please enter a valid number.", 30);
@@ -76,50 +69,56 @@ public class Menu {
     }
 
     private void showCharacterInfo() {
-        try {
-            typewriter("Character List:", 30);
-            typewriter("1. Achiron", 30);
-            typewriter("2. Atalyn", 30);
-            typewriter("3. Heralde", 30);
-            typewriter("4. Vor", 30);
-            typewriter("5. Orris", 30);
-            typewriter("6. Orven", 30);
-            System.out.print("Select a character to view details (1-6): ");
-            
-            int pick = scanner.nextInt();
-            scanner.nextLine();
-            
-            switch (pick) {
-                case 1:
-                    typewriter("You selected Achiron!", 30);
-                    achiron.showInfo();
-                    break;
-                case 2:
-                    typewriter("You selected Atalyn!", 30);
-                    atalyn.showInfo();
-                    break;
-                case 3:
-                    typewriter("You selected Heralde!", 30);
-                    heralde.showInfo();
-                    break;
-                case 4:
-                    typewriter("You selected Vor!", 30);
-                    vor.showInfo();
-                    break;
-                case 5:
-                    typewriter("You selected Orris!", 30);
-                    orris.showInfo();
-                    break;
-                case 6:
-                    typewriter("You selected Orven!", 30);
-                    orven.showInfo();
-                    break;
-                default:
-                    typewriter("Invalid character choice.", 30);
+        while(true){
+            try {
+                typewriter("Character List:", 30);
+                typewriter("1. Achiron", 30);
+                typewriter("2. Atalyn", 30);
+                typewriter("3. Heralde", 30);
+                typewriter("4. Vor", 30);
+                typewriter("5. Orris", 30);
+                typewriter("6. Orven", 30);
+                typewriter("7. Return to Main Menu", 30);
+                System.out.print("Select a character to view details (1-6): ");
+
+                int pick = scanner.nextInt();
+                scanner.nextLine();
+
+                switch (pick) {
+                    case 1 -> {
+                        typewriter("You selected Achiron!", 30);
+                        achiron.showInfo();
+                    }
+                    case 2 -> {
+                        typewriter("You selected Atalyn!", 30);
+                        atalyn.showInfo();
+                    }
+                    case 3 -> {
+                        typewriter("You selected Heralde!", 30);
+                        heralde.showInfo();
+                    }
+                    case 4 -> {
+                        typewriter("You selected Vor!", 30);
+                        vor.showInfo();
+                    }
+                    case 5 -> {
+                        typewriter("You selected Orris!", 30);
+                        orris.showInfo();
+                    }
+                    case 6 -> {
+                        typewriter("You selected Orven!", 30);
+                        orven.showInfo();
+                    }
+                    case 7 -> {
+                        typewriter("Returning to Main Menu.", 30);
+                        return;
+                    }
+                    default -> typewriter("Invalid character choice.", 30);
+                }
+            } catch (Exception e) {
+                typewriter("Invalid input. Please enter a number between 1 and 6.", 30);
+                scanner.nextLine(); // Clear the invalid input
             }
-        } catch (Exception e) {
-            typewriter("Invalid input. Please enter a number between 1 and 6.", 30);
-            scanner.nextLine(); // Clear the invalid input
         }
     }
 
@@ -138,7 +137,8 @@ public class Menu {
     }
 
     private GameCharacter selectCharacter(int playerNumber) {
-        while (true) {
+        boolean isValidChoice = false;
+        while (!isValidChoice) {
             try {
                 typewriter("\nPlayer " + playerNumber + ", select your character:", 5);
                 typewriter("1. Achiron", 5);
@@ -149,34 +149,42 @@ public class Menu {
                 typewriter("6. Orven", 5);
                 typewriter("7. Exit to Main Menu", 5);
                 typewriter("Choose your character (1-7): ", 5);
-                
+
                 int choice = scanner.nextInt();
                 scanner.nextLine();
-                
+
                 switch (choice) {
-                    case 1:
+                    case 1 -> {
                         return new Achiron();
-                    case 2:
+                    }
+                    case 2 -> {
                         return new Atalyn();
-                    case 3:
+                    }
+                    case 3 -> {
                         return new Heralde();
-                    case 4:
+                    }
+                    case 4 -> {
                         return new Vor();
-                    case 5:
+                    }
+                    case 5 -> {
                         return new Orris();
-                    case 6:
+                    }
+                    case 6 -> {
                         return new Orven();
-                    case 7:
+                    }
+                    case 7 -> {
                         typewriter("Returning to Main Menu.", 5);
                         return null;
-                    default:
-                        typewriter("Invalid choice. Please enter a number between 1 and 7.", 5);
+                    }
+                    default -> typewriter("Invalid choice. Please enter a number between 1 and 7.", 5);
                 }
+                isValidChoice = true;
             } catch (Exception e) {
                 typewriter("Invalid input. Please enter a number between 1 and 7.", 5);
                 scanner.nextLine(); // Clear the invalid input
             }
         }
+        return null; // This line should never be reached
     }
 
     private void startGameAI() {
@@ -187,24 +195,12 @@ public class Menu {
         GameCharacter ai = null;
         int aiPick = random.nextInt(6) + 1;
         switch (aiPick) {
-            case 1:
-                ai = new Achiron();
-                break;
-            case 2:
-                ai = new Atalyn();
-                break;
-            case 3:
-                ai = new Heralde();
-                break;
-            case 4:
-                ai = new Vor();
-                break;
-            case 5:
-                ai = new Orris();
-                break;
-            case 6:
-                ai = new Orven();
-                break;
+            case 1 -> ai = new Achiron();
+            case 2 -> ai = new Atalyn();
+            case 3 -> ai = new Heralde();
+            case 4 -> ai = new Vor();
+            case 5 -> ai = new Orris();
+            case 6 -> ai = new Orven();
         }
 
         assert ai != null; // AI selection is guaranteed by random range
@@ -220,7 +216,7 @@ public class Menu {
 
     public void typewriter(String text, int delay) {
         if (text == null) return;
-        
+
         StringBuilder output = new StringBuilder();
         for (char c : text.toCharArray()) {
             output.append(c);
