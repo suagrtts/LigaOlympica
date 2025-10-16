@@ -5,14 +5,14 @@ public class Atalyn extends GameCharacter {
     Scanner scan = new Scanner(System.in);
     private boolean nextAttackEvaded = false;
 
-    
+
     public Atalyn() {
         super("Atalyn", """
                                               Hunter of Artemis - Raised in forests where mortals fear to tread, Atalyn's arrow never misses.
                                               Said to be blessed at birth by Artemis, she hunts not for food, but for perfection in the chase.""",
               1500, 950, "Skill 1: Piercing Arrow - A precise shot that deals 160 damage and ignores 20% of armor.", "Skill 2: Hunter's Reflex - Evade the next attack.", "Gods Gift: Moonlit Mark - Mark the target, increasing damage dealt by 25% for 2 turns.");
     }
-    
+
     @Override
     public void skill1(GameCharacter target) {
         if(skill1Cooldown > 0){
@@ -23,21 +23,21 @@ public class Atalyn extends GameCharacter {
         if (this.mana >= 150) {
             this.useMana(150);
             this.skill1Cooldown = 1;
-            
+
             int baseDamage = 650;
             int damage = randomDamage(baseDamage, 18); // ±18 damage variance
-            
+
             // 20% armor pierce effect
             damage += (int)(damage * 0.20);
             typewriter("The arrow cuts through the air in a perfect line!", 30);
             typewriter("Dealt " + damage + " damage to " + target.getName() + "!", 10);
-            
+
             target.takeDamage(damage);
         } else {
             typewriter("Not enough mana!", 30);
         }
     }
-    
+
     @Override
     public void skill2(GameCharacter target) {
         if(skill2Cooldown > 0){
@@ -48,14 +48,14 @@ public class Atalyn extends GameCharacter {
         if (this.mana >= 120) {
             this.useMana(120);
             this.skill2Cooldown = 2;
-            
+
             this.nextAttackEvaded = true;
             typewriter("Atalyn's reflexes sharpen - the next attack will be evaded!", 30);
         } else {
             typewriter("Not enough mana!", 30);
         }
     }
-    
+
     @Override
     public void skill3(GameCharacter target) {
         if(skill3Cooldown > 0){
@@ -66,7 +66,7 @@ public class Atalyn extends GameCharacter {
         if (this.mana >= 500) {
             this.useMana(500);
             this.skill3Cooldown = 5;
-            
+
             this.statusEffectTurns = 2;
             this.damageBonus = 1.5;
 
@@ -116,37 +116,48 @@ public class Atalyn extends GameCharacter {
 
         boolean validChoice = false;
             while (!validChoice) {
-            int choice = scan.nextInt();
-
-            switch (choice) {
-                case 1 -> {
-                    if(skill1Cooldown > 0) {
-                        typewriter("Skill is on cooldown for " + skill1Cooldown + " more turns!", 5);
-                    } else {
-                        skill1(target);
-                        validChoice = true;
-                    }
+            try{
+                int choice;
+                if (scan.hasNextInt()) {
+                    choice = scan.nextInt();
+                } else {
+                    choice = random.nextInt(3) + 1;
                 }
-                case 2 -> {
-                    if(skill2Cooldown > 0) {
-                        typewriter("Skill is on cooldown for " + skill2Cooldown + " more turns!", 5);
 
-                    } else {
-                        skill2(target);
-                        validChoice = true;
-                    }
-                }
-                case 3 -> {
-                    if(skill3Cooldown > 0) {
-                        typewriter("Skill is on cooldown for " + skill3Cooldown + " more turns!", 5);
-                    } else {
-                        skill3(target);
-                        validChoice = true;
+                switch (choice) {
+                    case 1 -> {
+                        if(skill1Cooldown > 0) {
+                            typewriter("Skill is on cooldown for " + skill1Cooldown + " more turns!", 5);
+                        } else {
+                            skill1(target);
+                            validChoice = true;
                         }
+                    }
+                    case 2 -> {
+                        if(skill2Cooldown > 0) {
+                            typewriter("Skill is on cooldown for " + skill2Cooldown + " more turns!", 5);
+
+                        } else {
+                            skill2(target);
+                            validChoice = true;
+                        }
+                    }
+                    case 3 -> {
+                        if(skill3Cooldown > 0) {
+                            typewriter("Skill is on cooldown for " + skill3Cooldown + " more turns!", 5);
+                        } else {
+                            skill3(target);
+                            validChoice = true;
+                            }
+                    }
+                    default -> {
+                        typewriter("Invalid choice.", 5);
+                        scan.next();
+                    }
                 }
-                default -> {
-                    typewriter("Invalid choice.", 5);
-                }
+            }catch(Exception e){
+                typewriter("Invalid input. Please enter a number between 1 and 3.", 5);
+                scan.next(); // clear invalid input
             }
         }
     }

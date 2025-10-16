@@ -2,7 +2,7 @@ package ligaolympica.character;
 
 import java.util.Random;
 
-public class GameCharacter {
+public class GameCharacter implements CharacterInterface {
     protected String name;
     protected String backstory;
     protected int health;
@@ -14,16 +14,20 @@ public class GameCharacter {
     protected String skill1;
     protected String skill2;
     protected String skill3;
-    
+
     // Status effects
     protected double damageBonus = 1.0;
     protected int statusEffectTurns = 0;
-    
+
+    // Generic flags used by various characters
+    protected boolean untargetable = false;
+    protected boolean extraAttack = false;
+
     // Cooldown tracking
     protected int skill1Cooldown = 0;
     protected int skill2Cooldown = 0;
     protected int skill3Cooldown = 0;
-    
+
     public GameCharacter(String name, String backstory, int health, int mana, String skill1, String skill2, String skill3) {
         this.name = name;
         this.backstory = backstory;
@@ -34,10 +38,49 @@ public class GameCharacter {
         this.isAlive = true;
         this.random = new Random();
         this.skill1 = skill1;
-        this.skill2 = skill2;   
+        this.skill2 = skill2;
         this.skill3 = skill3;
     }
-    
+
+    // Getters
+    @Override
+    public String getName() {
+        return name;
+    }
+    public String getBackstory() {
+        return backstory;
+    }
+    @Override
+    public int getHealth() {
+        return health;
+    }
+    @Override
+    public int getMaxHealth() {
+        return maxHealth;
+    }
+    @Override
+    public int getMana() {
+        return mana;
+    }
+    @Override
+    public int getMaxMana() {
+        return maxMana;
+    }
+    @Override
+    public boolean isAlive() {
+        return isAlive;
+    }
+
+    @Override
+    public  void skill1(GameCharacter target) {
+    }
+    @Override
+    public  void skill2(GameCharacter target) {
+    }
+    @Override
+    public  void skill3(GameCharacter target) {
+    }
+
     //method to generate random damage within a range
     protected int randomDamage(int baseDamage, int variance) {
         int minDamage = Math.max(1, baseDamage - variance);
@@ -47,68 +90,69 @@ public class GameCharacter {
         damage = (int)(damage * damageBonus);
         return damage;
     }
-    
+
     // Update status effects and cooldowns each turn
     public void updateTurnEffects() {
         // Reduce cooldowns
         if (skill1Cooldown > 0) skill1Cooldown--;
         if (skill2Cooldown > 0) skill2Cooldown--;
         if (skill3Cooldown > 0) skill3Cooldown--;
-    }
-
-    public  void skill1(GameCharacter target) {
-    }
-
-    public  void skill2(GameCharacter target) {
-    }
-
-    public  void skill3(GameCharacter target) {
+        // Reduce status effect duration and reset temporary modifiers when they expire
+        if (statusEffectTurns > 0) {
+            statusEffectTurns--;
+            if (statusEffectTurns == 0) {
+                damageBonus = 1.0;
+                untargetable = false;
+            }
+        }
+        // extraAttack is a one-turn flag; reset it each update
+        extraAttack = false;
     }
 
     public void takeDamage(int damage) {
+        if (!this.isAlive) return;
+
+        // If untargetable, ignore damage
+        if (this.untargetable || this.damageBonus == 0.0) {
+            typewriter(this.name + " evades the attack!", 5);
+            return;
+        }
+
+        // Apply damage modifier if a status effect is active
+        if (this.statusEffectTurns > 0 && this.damageBonus != 1.0) {
+            damage = (int)(damage * this.damageBonus);
+        }
+
         this.health -= damage;
         if (this.health <= 0) {
             this.health = 0;
             this.isAlive = false;
         }
     }
-    
+
+    // True damage ignores mitigation and untargetable
+    public void takeTrueDamage(int damage) {
+        if (!this.isAlive) return;
+        this.health -= damage;
+        if (this.health <= 0) {
+            this.health = 0;
+            this.isAlive = false;
+        }
+    }
+
     public void heal(int amount) {
         this.health = Math.min(this.health + amount, this.maxHealth);
         System.out.println(this.name + " heals for " + amount + " HP! Health: " + this.health + "/" + this.maxHealth);
     }
-    
+
     public void useMana(int amount) {
         this.mana = Math.max(0, this.mana - amount);
     }
-    
+
     public void restoreMana(int amount) {
         this.mana = Math.min(this.mana + amount, this.maxMana);
     }
-    
-    // Getters
-    public String getName() { 
-        return name; 
-    }
-    public String getBackstory() { 
-        return backstory; 
-    }
-    public int getHealth() { 
-        return health; 
-    }
-    public int getMaxHealth() { 
-        return maxHealth; 
-    }
-    public int getMana() { 
-        return mana; 
-    }
-    public int getMaxMana() { 
-        return maxMana; 
-    }
-    public boolean isAlive() { 
-        return isAlive; 
-    }
-    
+
     public void displayStats() {
         typewriter("\n" + name + " - HP: " + health + "/" + maxHealth + " | MP: " + mana + "/" + maxMana, 5);
         if (skill1Cooldown > 0 || skill2Cooldown > 0 || skill3Cooldown > 0) {
@@ -119,7 +163,7 @@ public class GameCharacter {
             System.out.println();
         }
     }
-    
+
     public void showInfo() {
         typewriter("Character: " + name, 5);
         typewriter("Backstory: " + backstory, 5);
@@ -131,6 +175,7 @@ public class GameCharacter {
         System.out.println();
     }
 
+    @Override
     public void takeTurn(GameCharacter target) {
         int choice = random.nextInt(3) + 1;
         switch (choice) {
@@ -160,13 +205,5 @@ public class GameCharacter {
             }
         }
         System.out.println();
-    }
-
-    public void takeTrueDamage(int damage) {
-        this.health -= damage;
-        if (this.health <= 0) {
-            this.health = 0;
-            this.isAlive = false;
-        }
     }
 }

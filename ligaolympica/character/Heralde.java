@@ -6,7 +6,7 @@ public class Heralde extends GameCharacter {
 
     public Heralde(){
         super("Heralde", """
-                            Legends say Heralde strangled a lion with his bare hands as a boy. 
+                            Legends say Heralde strangled a lion with his bare hands as a boy.
                             His rage against monsters earned Zeus' favor, but each victory leaves him hungrier for the next challenge.""",
                 3500, 450,  "Skill 1  Lion's Strike (90 mana, 2-turn CD). Deals 220 damage single target.",
                             "Skill 2  Iron Hide (100 mana, 3-turn CD). Reduce incoming damage by 30% for 2 turns.",
@@ -77,11 +77,6 @@ public class Heralde extends GameCharacter {
         if(this.statusEffectTurns > 0 && this.damageBonus < 1.0){
             damage = (int)(damage * this.damageBonus);
             typewriter(name + "'s Iron Hide reduces the damage to " + damage + "!", 10);
-            this.statusEffectTurns--;
-            if(this.statusEffectTurns == 0){    
-                this.damageBonus = 1.0; // Reset damage bonus after effect ends
-                typewriter(name + "'s Iron Hide has worn off.", 10);
-            }
         }
         super.takeDamage(damage);
     }
@@ -104,41 +99,53 @@ public class Heralde extends GameCharacter {
     }
     @Override
     public void takeTurn(GameCharacter target) {
-        typewriter("\nChoose a skill for " + name + ":", 30);
-        typewriter("1) Lion's Strike - 220 Base Damage", 30);
-        typewriter("2) Iron Hide - Reduce incoming damage by 30% for 2 turns", 30);
-        typewriter("3) Thunder Wrath (God-Gift Zeus) - 400 True Damage", 30);
-        typewriter("Enter the number of the skill to use:", 30);
+        typewriter("\nChoose a skill for " + name + ":", 10);
+        typewriter("1) Lion's Strike - 220 Base Damage", 10);
+        typewriter("2) Iron Hide - Reduce incoming damage by 30% for 2 turns", 10);
+        typewriter("3) Thunder Wrath (God-Gift Zeus) - 400 True Damage", 10);
 
-        Boolean validChoice = false;
-        while(!validChoice) {
-            int choice = scan.nextInt();
-            switch (choice) {
-                case 1 -> {
-                    if(skill1Cooldown > 0) {
-                        typewriter("Lion's Strike is on cooldown for " + this.skill1Cooldown + " more turns. Choose another skill.", 10);
-                    } else {
-                        validChoice = true;
-                        skill1(target);
+        boolean validChoice = false;
+        while (!validChoice) {
+            try{
+                int choice;
+                if (scan.hasNextInt()) {
+                    choice = scan.nextInt();
+                } else {
+                    choice = random.nextInt(3) + 1;
+                }
+                switch (choice) {
+                    case 1 -> {
+                        if(skill1Cooldown > 0) {
+                            typewriter("Skill is on cooldown for " + skill1Cooldown + " more turns!", 5);
+                        } else {
+                            skill1(target);
+                            validChoice = true;
+                        }
                     }
-                }
-            case 2 -> {
-                if(skill2Cooldown > 0) {
-                    typewriter("Iron Hide is on cooldown for " + this.skill2Cooldown + " more turns. Choose another skill.", 10);
-                } else {
-                    validChoice = true;
-                    skill2(target);
-                }
-                }
-            case 3 -> {
-                if(skill3Cooldown > 0) {
-                    typewriter("Thunder Wrath is on cooldown for " + this.skill3Cooldown + " more turns. Choose another skill.", 10);
-                } else {
-                    validChoice = true;
-                    skill3(target);
-                }
-                }
-            default -> typewriter("Invalid choice! Choose again.", 30);
+                    case 2 -> {
+                        if(skill2Cooldown > 0) {
+                            typewriter("Skill is on cooldown for " + skill2Cooldown + " more turns!", 5);
+                        } else {
+                            skill2(target);
+                            validChoice = true;
+                        }
+                    }
+                    case 3 -> {
+                        if(skill3Cooldown > 0) {
+                            typewriter("Skill is on cooldown for " + skill3Cooldown + " more turns!", 5);
+                            } else {
+                                skill3(target);
+                                validChoice = true;
+                                }
+                        }
+                        default -> {
+                            typewriter("Invalid choice.", 5);
+                            scan.next();
+                        }
+                    }
+            }catch(Exception e){
+                typewriter("Invalid input. Please enter a number between 1 and 3.", 5);
+                scan.next(); // clear invalid input
             }
         }
     }

@@ -2,14 +2,14 @@ package ligaolympica.character;
 import java.util.*;
 
 public class Achiron extends GameCharacter {
-    Scanner scanner = new Scanner(System.in);
+    Scanner scan = new Scanner(System.in);
     public Achiron() {
         super("Achiron", """
                                                   The Unyielding Warrior - A descendant of Achilles, Achiron was trained by old warlords who believed pain forged immortality.
                                                   Scarred in a hundred duels, he refuses to bow, claiming even the gods cannot break his will.""",
               1800, 1000, "Skill 1: Spear Thrust - A powerful thrust with a spear. Deals 400 damage and pierces armor.", "Skill 2: Aegis Shield - Achiron raises his shield to block incoming attack. Reduces damage by 50%.", "Gods Gift: Wrath of Ares - Unleash the fury of the god of war. Increases damage by 50% for 2 turns.");
     }
-    
+
     @Override
     public void skill1(GameCharacter target) {
         if(skill1Cooldown > 0){
@@ -20,10 +20,10 @@ public class Achiron extends GameCharacter {
         if (this.mana >= 180) {
             this.useMana(180);
             this.skill1Cooldown = 1;
-            
+
             int baseDamage = 400;
             int damage = randomDamage(baseDamage, 20); // ±20 damage variance
-            
+
             // 20% armor pierce effect
             damage += (int)(damage * 0.20);
             typewriter("Armor piercing spear thrust!", 30);
@@ -33,7 +33,7 @@ public class Achiron extends GameCharacter {
             typewriter("Not enough mana!", 30);
         }
     }
-    
+
     @Override
     public void skill2(GameCharacter target) {
         if(skill2Cooldown > 0){
@@ -44,16 +44,16 @@ public class Achiron extends GameCharacter {
         if (this.mana >= 320) {
             this.useMana(320);
             this.skill2Cooldown = 3;
-            
+
             // Reduce incoming damage by 50% for the next attack
             this.damageBonus = 0.5;
-            
+
             target.statusEffectTurns = 1;
         } else {
             typewriter("Not enough mana!", 30);
         }
     }
-    
+
     @Override
     public void skill3(GameCharacter target) {
         if(skill3Cooldown > 0){
@@ -64,7 +64,7 @@ public class Achiron extends GameCharacter {
         if (this.mana >= 500) {
             this.useMana(500);
             this.skill3Cooldown = 5;
-            
+
             // +50% damage for 2 turns
             this.damageBonus = 1.5;
             this.statusEffectTurns = 2;
@@ -108,35 +108,46 @@ public class Achiron extends GameCharacter {
 
             boolean validChoice = false;
             while (!validChoice) {
-            int choice = scanner.nextInt();
-            switch (choice) {
-                case 1 -> {
-                    if(skill1Cooldown > 0){
-                        typewriter("Skill is on cooldown for " + skill1Cooldown + " more turns!", 5);
-                    }else {
-                        skill1(target);
-                        validChoice = true;
+                try{
+                    int choice;
+                    if (scan.hasNextInt()) {
+                        choice = scan.nextInt();
+                    } else {
+                        choice = random.nextInt(3) + 1;
+                    }
+                switch (choice) {
+                    case 1 -> {
+                        if(skill1Cooldown > 0){
+                            typewriter("Skill is on cooldown for " + skill1Cooldown + " more turns!", 5);
+                        }else {
+                            skill1(target);
+                            validChoice = true;
+                        }
+                    }
+                    case 2 -> {
+                        if(skill2Cooldown > 0){
+                            typewriter("Skill is on cooldown for " + skill1Cooldown + " more turns!", 5);
+                        }else {
+                            skill2(target);
+                            validChoice = true;
+                        }
+                    }
+                    case 3 -> {
+                        if(skill3Cooldown > 0){
+                            typewriter("Skill is on cooldown for " + skill1Cooldown + " more turns!", 5);
+                        }else {
+                            skill3(target);
+                            validChoice = true;
+                        }
+                    }
+                    default -> {
+                    typewriter("Invalid choice.", 10);
+                    scan.next();
                     }
                 }
-                case 2 -> {
-                    if(skill2Cooldown > 0){
-                        typewriter("Skill is on cooldown for " + skill1Cooldown + " more turns!", 5);
-                    }else {
-                        skill2(target);
-                        validChoice = true;
-                    }
-                }
-                case 3 -> {
-                    if(skill3Cooldown > 0){
-                        typewriter("Skill is on cooldown for " + skill1Cooldown + " more turns!", 5);
-                    }else {
-                        skill3(target);
-                        validChoice = true;
-                    }
-                }
-                default -> {
-                typewriter("Invalid choice.", 10);
-                }
+            }catch(Exception e){
+                typewriter("Invalid input. Please enter a number between 1 and 3.", 5);
+                scan.next(); // clear invalid input
             }
         }
     }

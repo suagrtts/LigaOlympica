@@ -6,10 +6,10 @@ public class Orris extends GameCharacter {
 
     public Orris() {
         super("Orris", """
-                            A demigod son of Poseidon, Orris commands the power of water and storms. 
+                            A demigod son of Poseidon, Orris commands the power of water and storms.
                             His temper is as fierce as the sea, and his loyalty to friends is unwavering.""",
-                2500, 600,  "Skill 1: Tidal Wave - Unleash a wave that deals 300 damage to all enemies.", 
-                            "Skill 2: Ocean's Shield - Create a shield that absorbs 200 damage for 2 turns.", 
+                2500, 600,  "Skill 1: Tidal Wave - Unleash a wave that deals 300 damage to all enemies.",
+                            "Skill 2: Ocean's Shield - Create a shield that absorbs 200 damage for 2 turns.",
                             "Gods Gift: Poseidon's Wrath - Summon a devastating tsunami that deals 500 true damage to all enemies."
         );
     }
@@ -65,96 +65,74 @@ public class Orris extends GameCharacter {
             this.skill3Cooldown = 6;
 
             int trueDamage = 500; // True damage ignores defenses
-            // Directly reduce target's health to bypass any damage reduction or evasion
-            target.health = Math.max(0, target.health - trueDamage);
-            if(target.health <= 0) {
-                target.isAlive = false;
-            }
-            
-            typewriter("POSEIDON'S WRATH deals " + trueDamage + " TRUE damage to " + target.getName() + "!", 10);
-            if(!target.isAlive) {
-                typewriter(target.getName() + " has been defeated by the power of the seas!", 10);
-            }
+
+            target.takeTrueDamage(trueDamage);
+            typewriter("Dealt " + trueDamage + " true damage to " + target.getName() + "!", 10);
         }else{
             typewriter("Not enough mana!", 30);
         }
     }
     @Override
-    public void takeDamage(int damage){
-        if(this.statusEffectTurns > 0){
+    public void takeDamage(int damage) {
+        // If Ocean's Shield is active, damageBonus will be < 1.0 and statusEffectTurns > 0
+        if (this.statusEffectTurns > 0 && this.damageBonus < 1.0) {
             damage = (int)(damage * this.damageBonus);
-            typewriter(name + "'s Ocean's Shield absorbs some damage! Reduced to " + damage + " damage.", 10);
-            this.statusEffectTurns--;
-            if(this.statusEffectTurns == 0){
-                this.damageBonus = 1.0; // Reset damage bonus after effect ends
-                typewriter(name + "'s Ocean's Shield has worn off.", 10);
-            }
+            typewriter(name + "'s Ocean's Shield absorbs part of the damage, reduced to " + damage + "!", 10);
         }
         super.takeDamage(damage);
     }
 
     @Override
-    public void restoreMana(int amount) {
-        this.mana = Math.min(this.mana + amount, this.maxMana);
-
-    }
-
-    @Override
-    public void displayStats() {
-        if(skill1Cooldown > 0) {
-            typewriter("Tidal Wave: is on cooldown for " + this.skill1Cooldown + " turns.", 10);
-        }
-        if(skill2Cooldown > 0) {
-            typewriter("Ocean's Shield: is on cooldown for " + this.skill2Cooldown + " turns.", 10);
-        }
-        if(skill3Cooldown > 0) {
-            typewriter("Poseidon's Wrath: is on cooldown for " + this.skill3Cooldown + " turns.", 10);
-        }
-        System.out.println();
-        typewriter(name + " - Health: " + health + "|" + maxHealth + " Mana: " + mana + "/" + maxMana, 10);
-    }
-
-    @Override
-    public void takeTurn(GameCharacter target){
+    public void takeTurn(GameCharacter target) {
         typewriter("\nChoose a skill for " + name + ":", 10);
-        typewriter("1) Skill 1: Tidal Wave - 300 Base Damage", 10);
-        typewriter("2) Skill 2: Ocean's Shield - Absorb 20% damage for 2 turns", 10);
-        typewriter("3) God's Gift: Poseidon's Wrath - 500 True Damage", 10);
-        int choice = scan.nextInt();
+        typewriter("1) Tidal Wave - 300 Base Damage", 10);
+        typewriter("2) Ocean's Shield - Absorb part of incoming damage for 2 turns", 10);
+        typewriter("3) Poseidon's Wrath - 500 True Damage", 10);
+
         boolean validChoice = false;
-        while(!validChoice) {
-            switch (choice) {
-                case 1 -> {
-                    if(skill1Cooldown > 0) {
-                        typewriter(skill1 + " is on cooldown for " + this.skill1Cooldown + " more turns. Choose another skill.", 10);
-                    } else {
-                        validChoice = true;
-                        skill1(target);
-                    }
-                }
-                case 2 -> {
-                    if(skill2Cooldown > 0) {
-                        typewriter(skill2 + " is on cooldown for " + this.skill2Cooldown + " more turns. Choose another skill.", 10);
-                    } else {
-                        validChoice = true;
-                        skill2(target);
-                    }
-                }
-                case 3 -> {
-                    if(skill3Cooldown > 0) {
-                        typewriter(skill3 + " is on cooldown for " + this.skill3Cooldown + " more turns. Choose another skill.", 10);
-                    } else {
-                        validChoice = true;
-                        skill3(target);
-                    }
-                }
-                default -> {
-                    typewriter("Invalid choice. Please select 1, 2, or 3.", 10);
+            while (!validChoice) {
+            try{
+                int choice;
+                if (scan.hasNextInt()) {
                     choice = scan.nextInt();
+                } else {
+                    choice = random.nextInt(3) + 1;
                 }
+                switch (choice) {
+                    case 1 -> {
+                        if(skill1Cooldown > 0) {
+                            typewriter("Skill is on cooldown for " + skill1Cooldown + " more turns!", 5);
+                        } else {
+                            skill1(target);
+                            validChoice = true;
+                        }
+                    }
+                    case 2 -> {
+                        if(skill2Cooldown > 0) {
+                            typewriter("Skill is on cooldown for " + skill2Cooldown + " more turns!", 5);
+
+                        } else {
+                            skill2(target);
+                            validChoice = true;
+                        }
+                    }
+                    case 3 -> {
+                        if(skill3Cooldown > 0) {
+                            typewriter("Skill is on cooldown for " + skill3Cooldown + " more turns!", 5);
+                        } else {
+                            skill3(target);
+                            validChoice = true;
+                            }
+                    }
+                    default -> {
+                        typewriter("Invalid choice.", 5);
+                        scan.next();
+                    }
+                }
+            }catch(Exception e){
+                typewriter("Invalid input. Please enter a number between 1 and 3.", 5);
+                scan.next(); // clear invalid input
             }
         }
     }
-
-
 }

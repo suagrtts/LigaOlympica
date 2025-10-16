@@ -26,34 +26,26 @@ public class Battle {
 
         while (player1.isAlive() && player2.isAlive() && turn <= maxTurns) {
             System.out.println("\n--- Turn " + turn + " ---");
-            typewriter(attacker.getName() + "'s turn!", 10);
+            System.out.println(attacker.getName() + "'s turn!");
 
-            // Update effects at start of turn
-            attacker.updateTurnEffects();
-            defender.updateTurnEffects();
-
-            // Restore some mana at start of turn (reduced from 150 to 100 for better balance)
-            attacker.restoreMana(100);
-
-            // Character acts based on whether they're computer-controlled
-            boolean isComputerTurn = (attacker == player2 && player2IsComputer);
-            if (isComputerTurn) {
+            // Character acts: if defender is player2 and player2IsComputer is true, use autoTakeTurn for that character when they act
+            if (attacker == player2 && player2IsComputer) {
                 attacker.autoTakeTurn(defender);
             } else {
                 attacker.takeTurn(defender);
             }
 
-            // Show battle status
+            // Update cooldowns and buffs
+            attacker.updateTurnEffects();
+
+            // Show status
+            attacker.displayStats();
             System.out.println();
-            typewriter("Battle Status:", 10);
-            typewriter(player1.getName() + " - HP: " + player1.getHealth() + "/" + player1.getMaxHealth() + 
-                     " | MP: " + player1.getMana() + "/" + player1.getMaxMana(), 10);
-            typewriter(player2.getName() + " - HP: " + player2.getHealth() + "/" + player2.getMaxHealth() + 
-                     " | MP: " + player2.getMana() + "/" + player2.getMaxMana(), 10);
-            
-            if (attacker.getHealth() > 0) {
-                attacker.displayStats();
-            }
+
+            typewriter(player1.getName() + " - HP: " + player1.getHealth() + "/" + player1.getMaxHealth() + " | " + player2.getName() + " - HP: " + player2.getHealth() + "/" + player2.getMaxHealth(), 10);
+            // Both characters regain some mana each turn
+            attacker.restoreMana(150);
+            defender.restoreMana(150);
 
             // Swap attacker/defender
             GameCharacter temp = attacker;
