@@ -32,9 +32,8 @@ public class Menu {
             typewriter("Main Menu", 30);
             typewriter("1. Start PvP Game", 30);
             typewriter("2. Start PvAI Game", 30);
-            typewriter("3. OOP Demo", 30);
-            typewriter("4. Show Characters", 30);
-            typewriter("5. Exit", 30);
+            typewriter("3. Show Characters", 30);
+            typewriter("4. Exit", 30);
             System.out.print("Choose an option: ");
             int choice;
             try{
@@ -48,9 +47,6 @@ public class Menu {
                         startGameAI();
                     }
                     case 3 -> {
-                        ligaolympica.demo.OOPDemo.runDemo();
-                    }
-                    case 4 -> {
                         typewriter("Character List:", 30);
                         typewriter("1. Achiron", 30);
                         typewriter("2. Atalyn", 30);
@@ -95,7 +91,7 @@ public class Menu {
                         running = false;
                     }
                     default -> {
-                        typewriter("Invalid choice. Please enter a number between 1 and 5.", 30);
+                        typewriter("Invalid choice. Please enter a number between 1 and 4.", 30);
                     }
                 }
             }catch (Exception e) {
