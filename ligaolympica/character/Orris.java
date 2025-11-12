@@ -8,7 +8,7 @@ public class Orris extends GameCharacter {
         super("Orris", """
                             A demigod son of Poseidon, Orris commands the power of water and storms.
                             His temper is as fierce as the sea, and his loyalty to friends is unwavering.""",
-                2500, 600,  "Skill 1: Tidal Wave - Unleash a wave that deals 300 damage to all enemies.",
+                1500, 600,  "Skill 1: Tidal Wave - Unleash a wave that deals 300 damage to all enemies.",
                             "Skill 2: Ocean's Shield - Create a shield that absorbs 200 damage for 2 turns.",
                             "Gods Gift: Poseidon's Wrath - Summon a devastating tsunami that deals 500 true damage to all enemies."
         );
@@ -23,7 +23,7 @@ public class Orris extends GameCharacter {
         }
         if(this.mana >= 130){
             this.useMana(130);
-            this.skill1Cooldown = 2;
+            this.skill1Cooldown = 1;
 
             int baseDamage = 300;
             int damage = randomDamage(baseDamage, 25); // ±25 damage variance

@@ -8,7 +8,7 @@ public class Heralde extends GameCharacter {
         super("Heralde", """
                             Legends say Heralde strangled a lion with his bare hands as a boy.
                             His rage against monsters earned Zeus' favor, but each victory leaves him hungrier for the next challenge.""",
-                3500, 450,  "Skill 1  Lion's Strike (90 mana, 2-turn CD). Deals 220 damage single target.",
+                1800, 450,  "Skill 1  Lion's Strike (90 mana, 2-turn CD). Deals 220 damage single target.",
                             "Skill 2  Iron Hide (100 mana, 3-turn CD). Reduce incoming damage by 30% for 2 turns.",
                             "Skill 3 (God-Gift  Zeus): Thunder Wrath (180 mana, 6-turn CD). Zeus' lightning strikes, 400 true damage."
         );
@@ -23,7 +23,7 @@ public class Heralde extends GameCharacter {
         }
         if(this.mana >= 90){
             this.useMana(90);
-            this.skill1Cooldown = 2;
+            this.skill1Cooldown = 1;
 
             int baseDamage = 220;
             int damage = randomDamage(baseDamage, 20); // ±20 damage variance

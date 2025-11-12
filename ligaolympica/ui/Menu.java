@@ -5,10 +5,13 @@ import java.util.Scanner;
 import ligaolympica.battle.Battle;
 import ligaolympica.character.Achiron;
 import ligaolympica.character.Atalyn;
+import ligaolympica.character.Biji;
 import ligaolympica.character.GameCharacter;
+import ligaolympica.character.GoatedKit;
 import ligaolympica.character.Heralde;
 import ligaolympica.character.Orris;
 import ligaolympica.character.Orven;
+import ligaolympica.character.Selwyn;
 import ligaolympica.character.Vor;
 
 public class Menu {
@@ -20,6 +23,9 @@ public class Menu {
     private final GameCharacter heralde;
     private final GameCharacter orris;
     private final GameCharacter orven;
+    private final GameCharacter biji;
+    private final GameCharacter selwyn;
+    private final GameCharacter goatedKit;
 
     public Menu() {
         scanner = new Scanner(System.in);
@@ -30,6 +36,9 @@ public class Menu {
         heralde = new Heralde();
         orris = new Orris();
         orven = new Orven();
+        biji = new Biji();
+        selwyn = new Selwyn();
+        goatedKit = new GoatedKit();
     }
 
     private void startBattle(GameCharacter player1, GameCharacter player2) {
@@ -46,7 +55,8 @@ public class Menu {
                 typewriter("1. Start PvP Game", 30);
                 typewriter("2. Start PvAI Game", 30);
                 typewriter("3. Show Characters", 30);
-                typewriter("4. Exit", 30);
+                typewriter("4. Start Arcade Mode", 30);
+                typewriter("5. Exit", 30);
                 System.out.print("Choose an option: ");
                 int choice = scanner.nextInt();
                 scanner.nextLine();
@@ -55,11 +65,12 @@ public class Menu {
                     case 1 -> startGame();
                     case 2 -> startGameAI();
                     case 3 -> showCharacterInfo();
-                    case 4 -> {
+                    case 4 -> startArcadeMode();
+                    case 5 -> {
                         typewriter("Exiting game. Goodbye!", 30);
                         running = false;
                     }
-                    default -> typewriter("Invalid choice. Please enter a number between 1 and 4.", 30);
+                    default -> typewriter("Invalid choice. Please enter a number between 1 and 5.", 30);
                 }
             } catch (Exception e) {
                 typewriter("Invalid input. Please enter a valid number.", 30);
@@ -78,8 +89,11 @@ public class Menu {
                 typewriter("4. Vor", 30);
                 typewriter("5. Orris", 30);
                 typewriter("6. Orven", 30);
-                typewriter("7. Return to Main Menu", 30);
-                System.out.print("Select a character to view details (1-6): ");
+                typewriter("7. Biji", 30);
+                typewriter("8. Selwyn", 30);
+                typewriter("9. Goated Kit", 30);
+                typewriter("10. Return to Main Menu", 30);
+                System.out.print("Select a character to view details (1-10): ");
 
                 int pick = scanner.nextInt();
                 scanner.nextLine();
@@ -110,13 +124,25 @@ public class Menu {
                         orven.showInfo();
                     }
                     case 7 -> {
+                        typewriter("You selected Biji!", 30);
+                        biji.showInfo();
+                    }
+                    case 8 -> {
+                        typewriter("You selected Selwyn!", 30);
+                        selwyn.showInfo();
+                    }
+                    case 9 -> {
+                        typewriter("You selected Goated Kit!", 30);
+                        goatedKit.showInfo();
+                    }
+                    case 10 -> {
                         typewriter("Returning to Main Menu.", 30);
                         return;
                     }
                     default -> typewriter("Invalid character choice.", 30);
                 }
             } catch (Exception e) {
-                typewriter("Invalid input. Please enter a number between 1 and 6.", 30);
+                typewriter("Invalid input. Please enter a number between 1 and 10.", 30);
                 scanner.nextLine(); // Clear the invalid input
             }
         }
@@ -147,8 +173,11 @@ public class Menu {
                 typewriter("4. Vor", 5);
                 typewriter("5. Orris", 5);
                 typewriter("6. Orven", 5);
-                typewriter("7. Exit to Main Menu", 5);
-                typewriter("Choose your character (1-7): ", 5);
+                typewriter("7. Biji", 5);
+                typewriter("8. Selwyn", 5);
+                typewriter("9. Goated Kit", 5);
+                typewriter("10. Exit to Main Menu", 5);
+                typewriter("Choose your character (1-10): ", 5);
 
                 int choice = scanner.nextInt();
                 scanner.nextLine();
@@ -173,14 +202,23 @@ public class Menu {
                         return new Orven();
                     }
                     case 7 -> {
+                        return new Biji();
+                    }
+                    case 8 -> {
+                        return new Selwyn();
+                    }
+                    case 9 -> {
+                        return new GoatedKit();
+                    }
+                    case 10 -> {
                         typewriter("Returning to Main Menu.", 5);
                         return null;
                     }
-                    default -> typewriter("Invalid choice. Please enter a number between 1 and 7.", 5);
+                    default -> typewriter("Invalid choice. Please enter a number between 1 and 10.", 5);
                 }
                 isValidChoice = true;
             } catch (Exception e) {
-                typewriter("Invalid input. Please enter a number between 1 and 7.", 5);
+                typewriter("Invalid input. Please enter a number between 1 and 10.", 5);
                 scanner.nextLine(); // Clear the invalid input
             }
         }
@@ -201,6 +239,9 @@ public class Menu {
             case 4 -> ai = new Vor();
             case 5 -> ai = new Orris();
             case 6 -> ai = new Orven();
+            case 7 -> ai = new Biji();
+            case 8 -> ai = new Selwyn();
+            case 9 -> ai = new GoatedKit();
         }
 
         assert ai != null; // AI selection is guaranteed by random range
@@ -212,6 +253,96 @@ public class Menu {
         // Start battle
         Battle battle = new Battle(player, ai);
         battle.startBattle(true);
+    }
+
+    private void startArcadeMode() {
+        GameCharacter player = selectCharacter(1);
+        boolean isValid = false;
+        while(!isValid){
+            try {
+                typewriter("Select Difficulty Level:", 30);
+                typewriter("1. Easy", 30);
+                typewriter("2. Medium", 30);
+                typewriter("3. Hard", 30);
+                System.out.print("Choose an option (1-3): ");
+                int choice = scanner.nextInt();
+                scanner.nextLine();
+
+                switch (choice) {
+                    case 1 -> {
+                        typewriter("You selected Easy difficulty.", 30);
+                        GameCharacter[] easyOpponents = {new Vor(), new Orris(), new Orven(), new Achiron()};
+                        arcadeBattle(player, easyOpponents);
+                        isValid = true;
+                    }
+                    case 2 -> {
+                        typewriter("You selected Medium difficulty.", 30);
+                        GameCharacter[] mediumOpponents = {new Achiron(), new Vor(), new Orris(), new Orven(), new Biji(), new Selwyn()};
+                        arcadeBattle(player, mediumOpponents);
+                        isValid = true;
+                    }
+                    case 3 -> {
+                        typewriter("You selected Hard difficulty.", 30);
+                        GameCharacter[] hardOpponents = {new Heralde(), new Achiron(), new Vor(), new Atalyn(), new Orris(), new Orven(), new Biji(), new Selwyn(), new GoatedKit()};
+                        arcadeBattle(player, hardOpponents);
+                        isValid = true;
+                    }
+                    default -> typewriter("Invalid choice. Please enter a number between 1 and 3.", 30);
+                }
+            } catch (Exception e) {
+                typewriter("Invalid input. Please enter a valid number.", 30);
+                scanner.nextLine(); // Clear the invalid input
+            }
+        }
+    }
+
+    private void arcadeBattle(GameCharacter player, GameCharacter[] opponents) {
+        int defeatedOpponents = 0;
+
+        typewriter("\n=== ARCADE MODE START ===", 50);
+        typewriter("Defeat all " + opponents.length + " opponents to win!", 30);
+        typewriter("========================\n", 50);
+
+        for (int i = 0; i < opponents.length; i++) {
+            if (player.getHealth() <= 0) {
+                typewriter("\n*** GAME OVER ***", 50);
+                typewriter("You were defeated after beating " + defeatedOpponents + " opponent(s).", 30);
+                typewriter("Better luck next time!", 30);
+                return; // Exit arcade mode
+            }
+
+            typewriter("\n--- Battle " + (i + 1) + " of " + opponents.length + " ---", 40);
+            typewriter("Opponent: " + opponents[i].getName(), 30);
+            typewriter("Your HP: " + player.getHealth() + "/" + player.getMaxHealth(), 30);
+            typewriter("\nPress Enter to continue...", 30);
+            scanner.nextLine();
+
+            Battle battle = new Battle(player, opponents[i]);
+            battle.startBattle(true);
+
+            if (player.getHealth() > 0) {
+                defeatedOpponents++;
+                typewriter("\n*** Victory! ***", 50);
+                typewriter("Opponents defeated: " + defeatedOpponents + "/" + opponents.length, 30);
+
+                // Optional: Restore some health between battles
+                if (i < opponents.length - 1) { // Not the last battle
+                    int healAmount = player.getMaxHealth() / 4; // Heal 25%
+                    player.heal(healAmount);
+                    typewriter("You recovered " + healAmount + " HP!", 30);
+                    typewriter("Current HP: " + player.getHealth() + "/" + player.getMaxHealth() + "\n", 30);
+                }
+            }
+        }
+        if (player.getHealth() > 0) {
+            typewriter("\n╔════════════════════════════╗", 50);
+            typewriter("║   ARCADE MODE COMPLETE!      ║", 50);
+            typewriter("╚════════════════════════════╝", 50);
+            typewriter("You defeated all " + opponents.length + " opponents!", 30);
+            typewriter("Final HP: " + player.getHealth() + "/" + player.getMaxHealth(), 30);
+            typewriter("\nPress Enter to return to main menu...", 30);
+            scanner.nextLine();
+        }
     }
 
     public void typewriter(String text, int delay) {

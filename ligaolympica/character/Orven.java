@@ -8,7 +8,7 @@ public class Orven extends GameCharacter {
         super("Orven", """
                             A demigod son of Hermes, Orven is swift and cunning.
                             His agility in battle is unmatched, and his quick wit often turns the tide of conflict.""",
-                2000, 700,  "Skill 1: Swift Strike - A rapid attack that deals 250 damage.",
+                1600, 700,  "Skill 1: Swift Strike - A rapid attack that deals 250 damage.",
                             "Skill 2: Vanish - Become untargetable for the next turn.",
                             "Gods Gift: Hermes' Speed - Move so fast that you can attack twice in one turn."
         );
@@ -23,7 +23,7 @@ public class Orven extends GameCharacter {
         }
         if(this.mana >= 140){
             this.useMana(140);
-            this.skill1Cooldown = 2;
+            this.skill1Cooldown = 1;
 
             int baseDamage = 250;
             int damage = randomDamage(baseDamage, 20); // ±20 damage variance
