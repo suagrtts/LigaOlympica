@@ -97,19 +97,15 @@ public class Biji extends GameCharacter {
     @Override
     public void takeTurn(GameCharacter target) {
         typewriter("\nChoose a skill for " + name + ":", 30);
-        typewriter("1) Power Chord - 380 Base Damage", 30);
-        typewriter("2) Healing Hymn - Heal 400 HP", 30);
-        typewriter("3) Symphony of Destruction - 600 Damage + Stun", 30);
+        typewriter("1) Power Chord - 380 Base Damage - CD: " + skill1Cooldown, 30);
+        typewriter("2) Healing Hymn - Heal 400 HP - CD: " + skill2Cooldown, 30);
+        typewriter("3) Symphony of Destruction - 600 Damage + Stun - CD: " + skill3Cooldown, 30);
 
         boolean validChoice = false;
         while (!validChoice) {
             try{
                 int choice;
-                if (scan.hasNextInt()) {
-                    choice = scan.nextInt();
-                } else {
-                    choice = random.nextInt(3) + 1;
-                }
+                choice = scan.nextInt();
                 switch (choice) {
                     case 1 -> {
                         if(skill1Cooldown > 0){

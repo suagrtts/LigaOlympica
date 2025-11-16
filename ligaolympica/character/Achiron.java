@@ -102,19 +102,16 @@ public class Achiron extends GameCharacter {
     @Override
     public void takeTurn(GameCharacter target) {
             typewriter("\nChoose a skill for " + name + ":", 30);
-            typewriter("1) Spear Thrust - 400 Base Damage", 30);
-            typewriter("2) Shield Bash - Reduce Damage by 50%", 30);
-            typewriter("3) Wrath of Ares - Increase Damage by 50%", 30);
+            typewriter("1) Spear Thrust - 400 Base Damage - CD: " + skill1Cooldown, 30);
+            typewriter("2) Shield Bash - Reduce Damage by 50% - CD: " + skill2Cooldown, 30);
+            typewriter("3) Wrath of Ares - Increase Damage by 50% - CD: " + skill3Cooldown, 30);
 
             boolean validChoice = false;
             while (!validChoice) {
                 try{
                     int choice;
-                    if (scan.hasNextInt()) {
-                        choice = scan.nextInt();
-                    } else {
-                        choice = random.nextInt(3) + 1;
-                    }
+                    typewriter("Enter the number of your choice:", 10);
+                    choice = scan.nextInt();
                 switch (choice) {
                     case 1 -> {
                         if(skill1Cooldown > 0){
@@ -126,7 +123,7 @@ public class Achiron extends GameCharacter {
                     }
                     case 2 -> {
                         if(skill2Cooldown > 0){
-                            typewriter("Skill is on cooldown for " + skill1Cooldown + " more turns!", 5);
+                            typewriter("Skill is on cooldown for " + skill2Cooldown + " more turns!", 5);
                         }else {
                             skill2(target);
                             validChoice = true;
@@ -134,7 +131,7 @@ public class Achiron extends GameCharacter {
                     }
                     case 3 -> {
                         if(skill3Cooldown > 0){
-                            typewriter("Skill is on cooldown for " + skill1Cooldown + " more turns!", 5);
+                            typewriter("Skill is on cooldown for " + skill3Cooldown + " more turns!", 5);
                         }else {
                             skill3(target);
                             validChoice = true;

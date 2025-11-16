@@ -327,7 +327,7 @@ public class Menu {
 
                 // Optional: Restore some health between battles
                 if (i < opponents.length - 1) { // Not the last battle
-                    int healAmount = player.getMaxHealth() / 4; // Heal 25%
+                    int healAmount = player.getMaxHealth() / 2; // Heal 50% of max health
                     player.heal(healAmount);
                     typewriter("You recovered " + healAmount + " HP!", 30);
                     typewriter("Current HP: " + player.getHealth() + "/" + player.getMaxHealth() + "\n", 30);

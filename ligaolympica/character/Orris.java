@@ -85,19 +85,15 @@ public class Orris extends GameCharacter {
     @Override
     public void takeTurn(GameCharacter target) {
         typewriter("\nChoose a skill for " + name + ":", 10);
-        typewriter("1) Tidal Wave - 300 Base Damage", 10);
-        typewriter("2) Ocean's Shield - Absorb part of incoming damage for 2 turns", 10);
-        typewriter("3) Poseidon's Wrath - 500 True Damage", 10);
+        typewriter("1) Tidal Wave - 300 Base Damage - CD: " + skill1Cooldown, 10);
+        typewriter("2) Ocean's Shield - Absorb part of incoming damage for 2 turns - CD: " + skill2Cooldown, 10);
+        typewriter("3) Poseidon's Wrath - 500 True Damage - CD: " + skill3Cooldown, 10);
 
         boolean validChoice = false;
             while (!validChoice) {
             try{
                 int choice;
-                if (scan.hasNextInt()) {
-                    choice = scan.nextInt();
-                } else {
-                    choice = random.nextInt(3) + 1;
-                }
+                choice = scan.nextInt();
                 switch (choice) {
                     case 1 -> {
                         if(skill1Cooldown > 0) {

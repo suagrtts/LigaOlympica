@@ -110,22 +110,15 @@ public class Vor extends GameCharacter {
     @Override
     public void takeTurn(GameCharacter target) {
         typewriter("\nChoose a skill for " + name + ":", 10);
-        typewriter("1) Time Slash - 300 Base Damage", 10);
-        typewriter("2) Temporal Shift - Evade Next Attack", 10);
-        typewriter("3) Chrono Mark - Increase Damage by 25%", 10);
+        typewriter("1) Time Slash - 300 Base Damage - CD: " + skill1Cooldown, 10);
+        typewriter("2) Temporal Shift - Evade Next Attack - CD: " + skill2Cooldown, 10);
+        typewriter("3) Chrono Mark - Increase Damage by 25% - CD: " + skill3Cooldown, 10);
 
         boolean validChoice = false;
         while (!validChoice) {
             try {
                 int choice;
-                if (scan.hasNextInt()) {
-                    choice = scan.nextInt();
-                    scan.nextLine(); // clear trailing newline
-                } else {
-                    choice = random.nextInt(3) + 1;
-                    scan.next(); // clear invalid input
-                }
-
+                choice = scan.nextInt();
                 switch (choice) {
                     case 1 -> {
                         if (skill1Cooldown > 0) {

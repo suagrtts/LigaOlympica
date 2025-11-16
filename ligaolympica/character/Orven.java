@@ -95,18 +95,14 @@ public class Orven extends GameCharacter {
     @Override
     public void takeTurn(GameCharacter target){
         typewriter("\nChoose a skill for " + name + ":", 10);
-        typewriter("1) Swift Strike - 250 Base Damage", 10);
-        typewriter("2) Vanish - Untargetable Next Turn", 10);
-        typewriter("3) Hermes' Speed - Extra Attack This Turn", 10);
+        typewriter("1) Swift Strike - 250 Base Damage - CD: " + skill1Cooldown, 10);
+        typewriter("2) Vanish - Untargetable Next Turn - CD: " + skill2Cooldown, 10);
+        typewriter("3) Hermes' Speed - Extra Attack This Turn - CD: " + skill3Cooldown, 10);
         boolean validChoice = false;
         while(!validChoice) {
             try{
                 int choice;
-                if (scan.hasNextInt()) {
-                    choice = scan.nextInt();
-                } else {
-                    choice = random.nextInt(3) + 1;
-                }
+                choice = scan.nextInt();
                 switch (choice) {
                     case 1 -> {
                         if(skill1Cooldown > 0) {

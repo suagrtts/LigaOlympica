@@ -100,19 +100,15 @@ public class Heralde extends GameCharacter {
     @Override
     public void takeTurn(GameCharacter target) {
         typewriter("\nChoose a skill for " + name + ":", 10);
-        typewriter("1) Lion's Strike - 220 Base Damage", 10);
-        typewriter("2) Iron Hide - Reduce incoming damage by 30% for 2 turns", 10);
-        typewriter("3) Thunder Wrath (God-Gift Zeus) - 400 True Damage", 10);
+        typewriter("1) Lion's Strike - 220 Base Damage - CD: " + skill1Cooldown, 10);
+        typewriter("2) Iron Hide - Reduce incoming damage by 30% for 2 turns - CD: " + skill2Cooldown, 10);
+        typewriter("3) Thunder Wrath (God-Gift Zeus) - 400 True Damage - CD: " + skill3Cooldown, 10);
 
         boolean validChoice = false;
         while (!validChoice) {
             try{
                 int choice;
-                if (scan.hasNextInt()) {
-                    choice = scan.nextInt();
-                } else {
-                    choice = random.nextInt(3) + 1;
-                }
+                choice = scan.nextInt();
                 switch (choice) {
                     case 1 -> {
                         if(skill1Cooldown > 0) {

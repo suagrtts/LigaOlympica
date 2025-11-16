@@ -23,7 +23,7 @@ public class Selwyn extends GameCharacter {
         }
         if (this.mana >= 220) {
             this.useMana(220);
-            this.skill1Cooldown = 2;
+            this.skill1Cooldown = 1;
 
             int baseDamage = 420;
             int damage = randomDamage(baseDamage, 30);
@@ -110,19 +110,15 @@ public class Selwyn extends GameCharacter {
     @Override
     public void takeTurn(GameCharacter target) {
         typewriter("\nChoose a skill for " + name + ":", 30);
-        typewriter("1) Rage Quit - 420 Base Damage", 30);
-        typewriter("2) Respawn Shield - Reduce Next Damage by 60%", 30);
-        typewriter("3) Loki's Hack - 450 Critical Damage (Ignores Defense)", 30);
+        typewriter("1) Rage Quit - 420 Base Damage - CD: " + skill1Cooldown, 30);
+        typewriter("2) Respawn Shield - Reduce Next Damage by 60% - CD: " + skill2Cooldown, 30);
+        typewriter("3) Loki's Hack - 450 Critical Damage (Ignores Defense) - CD: " + skill3Cooldown, 30);
 
         boolean validChoice = false;
         while (!validChoice) {
             try{
                 int choice;
-                if (scan.hasNextInt()) {
-                    choice = scan.nextInt();
-                } else {
-                    choice = random.nextInt(3) + 1;
-                }
+                choice = scan.nextInt();
                 switch (choice) {
                     case 1 -> {
                         if(skill1Cooldown > 0){

@@ -110,20 +110,15 @@ public class Atalyn extends GameCharacter {
     @Override
     public void takeTurn(GameCharacter target) {
         typewriter("\nChoose a skill for " + name + ":", 10);
-        typewriter("1) Piercing Arrow - 650 Base Damage", 10);
-        typewriter("2) Hunter's Reflex - Evade Next Attack", 10);
-        typewriter("3) Moonlit Mark - Increase Damage by 50%", 10);
+        typewriter("1) Piercing Arrow - 650 Base Damage - CD: " + skill1Cooldown, 10);
+        typewriter("2) Hunter's Reflex - Evade Next Attack - CD: " + skill2Cooldown, 10);
+        typewriter("3) Moonlit Mark - Increase Damage by 50% - CD: " + skill3Cooldown, 10);
 
         boolean validChoice = false;
             while (!validChoice) {
             try{
                 int choice;
-                if (scan.hasNextInt()) {
-                    choice = scan.nextInt();
-                } else {
-                    choice = random.nextInt(3) + 1;
-                }
-
+                choice = scan.nextInt();
                 switch (choice) {
                     case 1 -> {
                         if(skill1Cooldown > 0) {

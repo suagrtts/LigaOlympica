@@ -107,19 +107,15 @@ public class GoatedKit extends GameCharacter {
     @Override
     public void takeTurn(GameCharacter target) {
         typewriter("\nChoose a skill for " + name + ":", 30);
-        typewriter("1) Kit Kit - 300 Base Damage", 30);
-        typewriter("2) Rat Spot - Dodge All Attacks for 2 Turns", 30);
-        typewriter("3) Talona's Might - +50% Damage for 3 Turns", 30);
+        typewriter("1) Kit Kit - 300 Base Damage - CD: " + skill1Cooldown, 30);
+        typewriter("2) Rat Spot - Dodge All Attacks for 2 Turns - CD: " + skill2Cooldown, 30);
+        typewriter("3) Talona's Might - +50% Damage for 3 Turns - CD: " + skill3Cooldown, 30);
 
         boolean validChoice = false;
         while (!validChoice) {
             try{
                 int choice;
-                if (scan.hasNextInt()) {
-                    choice = scan.nextInt();
-                } else {
-                    choice = random.nextInt(3) + 1;
-                }
+                choice = scan.nextInt();
                 switch (choice) {
                     case 1 -> {
                         if(skill1Cooldown > 0){
