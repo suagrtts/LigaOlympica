@@ -346,20 +346,12 @@ public class Menu {
     }
 
     public void typewriter(String text, int delay) {
-        if (text == null) return;
-
-        StringBuilder output = new StringBuilder();
         for (char c : text.toCharArray()) {
-            output.append(c);
             System.out.print(c);
             try {
-                Thread.sleep(Math.min(delay, 50)); // Cap the delay to avoid too slow output
+                Thread.sleep(delay);
             } catch (InterruptedException e) {
-                // Print the rest of the text immediately if interrupted
-                System.out.print(text.substring(output.length()));
-                System.out.println();
                 Thread.currentThread().interrupt();
-                return;
             }
         }
         System.out.println();
