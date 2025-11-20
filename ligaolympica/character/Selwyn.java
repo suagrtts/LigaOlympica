@@ -9,7 +9,7 @@ public class Selwyn extends GameCharacter {
                         The Digital Overlord - Blessed by Loki, god of mischief and trickery, Selwyn is a legendary gamer who mastered every realm.
                         With lightning reflexes and strategic genius, he exploits enemy weaknesses like finding glitches in reality itself.""",
                 1700, 1100,
-                "Skill 1: Rage Quit - Unleashes gamer rage dealing massive damage. 420 base damage.",
+                "Skill 1: Rage Bait - Unleashes gamer rage dealing massive damage. 420 base damage.",
                 "Skill 2: Respawn Shield - Creates a defensive barrier. Reduces next incoming damage by 60%.",
                 "Gods Gift: Loki's Hack - Exploits reality's code. Critical strike that ignores 30% of enemy defenses for 450 damage.");
     }
@@ -19,7 +19,7 @@ public class Selwyn extends GameCharacter {
         if(skill1Cooldown > 0){
             return;
         }else{
-            typewriter("\n" + name + " triggers a RAGE QUIT!", 30);
+            typewriter("\n" + name + " triggers a RAGE BAIT!", 30);
         }
         if (this.mana >= 220) {
             this.useMana(220);
@@ -28,7 +28,7 @@ public class Selwyn extends GameCharacter {
             int baseDamage = 420;
             int damage = randomDamage(baseDamage, 30);
 
-            typewriter("Controller smashing intensifies!", 30);
+            typewriter("Keyboard smashing intensifies!", 30);
             target.takeDamage(damage);
             typewriter("Dealt " + damage + " damage to " + target.getName() + "!", 10);
         } else {
@@ -95,7 +95,7 @@ public class Selwyn extends GameCharacter {
     @Override
     public void displayStats() {
         if(skill1Cooldown > 0) {
-            typewriter("Rage Quit: is on cooldown for " + this.skill1Cooldown + " turns.", 10);
+            typewriter("Rage Bait: is on cooldown for " + this.skill1Cooldown + " turns.", 10);
         }
         if(skill2Cooldown > 0) {
             typewriter("Respawn Shield: is on cooldown for " + this.skill2Cooldown + " turns.", 10);
@@ -110,7 +110,7 @@ public class Selwyn extends GameCharacter {
     @Override
     public void takeTurn(GameCharacter target) {
         typewriter("\nChoose a skill for " + name + ":", 30);
-        typewriter("1) Rage Quit - 420 Base Damage - CD: " + skill1Cooldown, 30);
+        typewriter("1) Rage Bait - 420 Base Damage - CD: " + skill1Cooldown, 30);
         typewriter("2) Respawn Shield - Reduce Next Damage by 60% - CD: " + skill2Cooldown, 30);
         typewriter("3) Loki's Hack - 450 Critical Damage (Ignores Defense) - CD: " + skill3Cooldown, 30);
 
@@ -118,6 +118,7 @@ public class Selwyn extends GameCharacter {
         while (!validChoice) {
             try{
                 int choice;
+                System.out.print("Enter the number of your choice: ");
                 choice = scan.nextInt();
                 switch (choice) {
                     case 1 -> {

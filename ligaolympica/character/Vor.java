@@ -27,8 +27,6 @@ public class Vor extends GameCharacter {
             int baseDamage = 300;
             int damage = randomDamage(baseDamage, 20); // ±20 damage variance
 
-            // 20% armor pierce effect
-            damage += (int)(damage * 0.20);
             typewriter("Time itself is slashed!", 30);
             typewriter("Dealt " + damage + " damage to " + target.getName() + "!", 10);
 
@@ -68,7 +66,7 @@ public class Vor extends GameCharacter {
             this.skill3Cooldown = 5;
 
             this.statusEffectTurns = 2;
-            this.damageBonus = 1.5;
+            this.damageBonus = 1.25;
 
             typewriter("KEITH'S LEGEND! Time is marked on the target - damage increased by 25% for 2 turns!", 30);
         } else {
@@ -118,6 +116,7 @@ public class Vor extends GameCharacter {
         while (!validChoice) {
             try {
                 int choice;
+                System.out.print("Enter the number of your choice: ");
                 choice = scan.nextInt();
                 switch (choice) {
                     case 1 -> {

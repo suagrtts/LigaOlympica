@@ -58,9 +58,15 @@ public class Battle {
         if (turn > maxTurns) {
             typewriter("\nThe battle ended in a draw!", 10);
         } else if (player1.isAlive()) {
-            typewriter("\n" + player1.getName() + " wins!", 10);
+            typewriter("\n╔════════════════════════════╗", 0);
+            typewriter("   \t" + player1.getName() + " wins!        ", 0);
+            typewriter("╚════════════════════════════╝", 0);
+            System.out.println();
         } else {
-            typewriter("\n" + player2.getName() + " wins!", 10);
+            typewriter("\n╔════════════════════════════╗", 0);
+            typewriter("   \t" + player2.getName() + " wins!        ", 0);
+            typewriter("╚════════════════════════════╝", 0);
+            System.out.println();
         }
     }
 

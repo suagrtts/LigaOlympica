@@ -28,7 +28,7 @@ public class Biji extends GameCharacter {
             int baseDamage = 380;
             int damage = randomDamage(baseDamage, 25);
 
-            typewriter("🎸 Sonic waves crash into " + target.getName() + "!", 30);
+            typewriter("Sonic waves crash into " + target.getName() + "!", 30);
             target.takeDamage(damage);
             typewriter("Dealt " + damage + " damage!", 10);
         } else {
@@ -49,7 +49,7 @@ public class Biji extends GameCharacter {
 
             int healAmount = 400;
             this.heal(healAmount);
-            typewriter("🎵 Apollo's blessing flows through the melody!", 30);
+            typewriter("Apollo's blessing flows through the melody!", 30);
             typewriter(name + " recovered " + healAmount + " HP!", 10);
         } else {
             typewriter("Not enough mana!", 30);
@@ -70,7 +70,7 @@ public class Biji extends GameCharacter {
             int baseDamage = 600;
             int damage = randomDamage(baseDamage, 30);
 
-            typewriter("🎼 Divine music overwhelms the battlefield!", 30);
+            typewriter("Divine music overwhelms the battlefield!", 30);
             target.takeDamage(damage);
             target.statusEffectTurns = 1; // Stun for 1 turn
             typewriter("Dealt " + damage + " damage! " + target.getName() + " is stunned!", 10);
@@ -105,6 +105,7 @@ public class Biji extends GameCharacter {
         while (!validChoice) {
             try{
                 int choice;
+                System.out.print("Enter the number of your choice: ");
                 choice = scan.nextInt();
                 switch (choice) {
                     case 1 -> {

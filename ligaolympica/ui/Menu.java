@@ -1,5 +1,6 @@
 package ligaolympica.ui;
 
+import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
 import ligaolympica.battle.Battle;
@@ -13,6 +14,7 @@ import ligaolympica.character.Orris;
 import ligaolympica.character.Orven;
 import ligaolympica.character.Selwyn;
 import ligaolympica.character.Vor;
+import ligaolympica.character.SirKhai;
 
 public class Menu {
     private final Scanner scanner;
@@ -26,6 +28,7 @@ public class Menu {
     private final GameCharacter biji;
     private final GameCharacter selwyn;
     private final GameCharacter goatedKit;
+    private final GameCharacter sirKhai;
 
     public Menu() {
         scanner = new Scanner(System.in);
@@ -39,6 +42,7 @@ public class Menu {
         biji = new Biji();
         selwyn = new Selwyn();
         goatedKit = new GoatedKit();
+        sirKhai = new SirKhai();
     }
 
     private void startBattle(GameCharacter player1, GameCharacter player2) {
@@ -92,6 +96,7 @@ public class Menu {
                 typewriter("7. Biji", 30);
                 typewriter("8. Selwyn", 30);
                 typewriter("9. Goated Kit", 30);
+                typewriter("SirKhai(Test character)", 20);
                 typewriter("10. Return to Main Menu", 30);
                 System.out.print("Select a character to view details (1-10): ");
 
@@ -136,13 +141,17 @@ public class Menu {
                         goatedKit.showInfo();
                     }
                     case 10 -> {
+                        typewriter("You selected THE GOAT, Sir Khai", 20);
+                        sirKhai.showInfo();
+                    }
+                    case 11 -> {
                         typewriter("Returning to Main Menu.", 30);
                         return;
                     }
                     default -> typewriter("Invalid character choice.", 30);
                 }
-            } catch (Exception e) {
-                typewriter("Invalid input. Please enter a number between 1 and 10.", 30);
+            } catch (InputMismatchException e) {
+                typewriter("Invalid input. Please enter a number between 1 and 11.", 30);
                 scanner.nextLine(); // Clear the invalid input
             }
         }
@@ -176,8 +185,9 @@ public class Menu {
                 typewriter("7. Biji", 5);
                 typewriter("8. Selwyn", 5);
                 typewriter("9. Goated Kit", 5);
-                typewriter("10. Exit to Main Menu", 5);
-                typewriter("Choose your character (1-10): ", 5);
+                typewriter("10. SirKhai (Test Character)", 5);
+                typewriter("11. Exit to Main Menu", 5);
+                typewriter("Choose your character (1-11): ", 5);
 
                 int choice = scanner.nextInt();
                 scanner.nextLine();
@@ -210,15 +220,18 @@ public class Menu {
                     case 9 -> {
                         return new GoatedKit();
                     }
-                    case 10 -> {
+                    case 10 ->{
+                        return new SirKhai();
+                    }
+                    case 11 -> {
                         typewriter("Returning to Main Menu.", 5);
                         return null;
                     }
-                    default -> typewriter("Invalid choice. Please enter a number between 1 and 10.", 5);
+                    default -> typewriter("Invalid choice.", 5);
                 }
                 isValidChoice = true;
             } catch (Exception e) {
-                typewriter("Invalid input. Please enter a number between 1 and 10.", 5);
+                typewriter("Invalid input. Please enter a number between 1 and 11.", 5);
                 scanner.nextLine(); // Clear the invalid input
             }
         }
@@ -242,6 +255,7 @@ public class Menu {
             case 7 -> ai = new Biji();
             case 8 -> ai = new Selwyn();
             case 9 -> ai = new GoatedKit();
+            case 10 -> ai = new SirKhai();
         }
 
         assert ai != null; // AI selection is guaranteed by random range
@@ -335,9 +349,9 @@ public class Menu {
             }
         }
         if (player.getHealth() > 0) {
-            typewriter("\n╔════════════════════════════╗", 50);
-            typewriter("║   ARCADE MODE COMPLETE!      ║", 50);
-            typewriter("╚════════════════════════════╝", 50);
+            typewriter("\n╔════════════════════════════╗", 0);
+            typewriter("║   ARCADE MODE COMPLETE!    ║", 0);
+            typewriter("╚════════════════════════════╝", 0);
             typewriter("You defeated all " + opponents.length + " opponents!", 30);
             typewriter("Final HP: " + player.getHealth() + "/" + player.getMaxHealth(), 30);
             typewriter("\nPress Enter to return to main menu...", 30);

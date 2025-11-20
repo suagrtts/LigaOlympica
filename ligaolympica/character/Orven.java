@@ -102,6 +102,7 @@ public class Orven extends GameCharacter {
         while(!validChoice) {
             try{
                 int choice;
+                System.out.print("Enter the number of your choice: ");
                 choice = scan.nextInt();
                 switch (choice) {
                     case 1 -> {
