@@ -72,6 +72,22 @@ public class Orris extends GameCharacter {
             typewriter("Not enough mana!", 30);
         }
     }
+
+    @Override
+    public void displayStats() {
+            if(skill1Cooldown > 0) {
+                typewriter("Tidal Wave: is on cooldown for " + this.skill1Cooldown + " turns.", 10);
+            }
+            if(skill2Cooldown > 0) {
+                typewriter("Ocean's Shield: is on cooldown for " + this.skill2Cooldown + " turns.", 10);
+            }
+            if(skill3Cooldown > 0) {
+                typewriter("Poseidon's Wrath: is on cooldown for " + this.skill3Cooldown + " turns.", 10);
+            }
+
+            System.out.println();
+            typewriter(name + " - Health: " + health + "|" + maxHealth + ", Mana: " + mana + "/" + maxMana, 10);
+            }
     @Override
     public void takeDamage(int damage) {
         // If Ocean's Shield is active, damageBonus will be < 1.0 and statusEffectTurns > 0

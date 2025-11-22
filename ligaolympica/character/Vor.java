@@ -73,6 +73,7 @@ public class Vor extends GameCharacter {
             typewriter("Not enough mana!", 30);
         }
     }
+    
     @Override
     public void displayStats() {
             if(skill1Cooldown > 0) {

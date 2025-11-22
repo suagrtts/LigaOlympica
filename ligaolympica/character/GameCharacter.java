@@ -153,6 +153,21 @@ public class GameCharacter implements CharacterInterface {
         this.mana = Math.min(this.mana + amount, this.maxMana);
     }
 
+    
+    //Reset character state for a new round
+    public void resetForNewRound() {
+        this.health = this.maxHealth;
+        this.mana = this.maxMana;
+        this.isAlive = true;
+        this.damageBonus = 1.0;
+        this.statusEffectTurns = 0;
+        this.untargetable = false;
+        this.extraAttack = false;
+        this.skill1Cooldown = 0;
+        this.skill2Cooldown = 0;
+        this.skill3Cooldown = 0;
+    }
+
     public void displayStats() {
         typewriter("\n" + name + " - HP: " + health + "/" + maxHealth + " | MP: " + mana + "/" + maxMana, 5);
         if (skill1Cooldown > 0 || skill2Cooldown > 0 || skill3Cooldown > 0) {
