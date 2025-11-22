@@ -1,8 +1,6 @@
 package ligaolympica.ui;
 
-import java.util.InputMismatchException;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 import ligaolympica.battle.Battle;
 import ligaolympica.character.Achiron;
 import ligaolympica.character.Atalyn;
@@ -13,8 +11,8 @@ import ligaolympica.character.Heralde;
 import ligaolympica.character.Orris;
 import ligaolympica.character.Orven;
 import ligaolympica.character.Selwyn;
-import ligaolympica.character.Vor;
 import ligaolympica.character.SirKhai;
+import ligaolympica.character.Vor;
 
 public class Menu {
     private final Scanner scanner;
@@ -96,8 +94,7 @@ public class Menu {
                 typewriter("7. Biji", 30);
                 typewriter("8. Selwyn", 30);
                 typewriter("9. Goated Kit", 30);
-                typewriter("SirKhai(Test character)", 20);
-                typewriter("10. Return to Main Menu", 30);
+                typewriter("0. Return to Main Menu", 30);
                 System.out.print("Select a character to view details (1-10): ");
 
                 int pick = scanner.nextInt();
@@ -144,7 +141,7 @@ public class Menu {
                         typewriter("You selected THE GOAT, Sir Khai", 20);
                         sirKhai.showInfo();
                     }
-                    case 11 -> {
+                    case 0 -> {
                         typewriter("Returning to Main Menu.", 30);
                         return;
                     }
@@ -185,9 +182,8 @@ public class Menu {
                 typewriter("7. Biji", 5);
                 typewriter("8. Selwyn", 5);
                 typewriter("9. Goated Kit", 5);
-                typewriter("10. SirKhai (Test Character)", 5);
-                typewriter("11. Exit to Main Menu", 5);
-                typewriter("Choose your character (1-11): ", 5);
+                typewriter("0. Exit to Main Menu", 5);
+                typewriter("Choose your character (1-10): ", 5);
 
                 int choice = scanner.nextInt();
                 scanner.nextLine();
@@ -223,7 +219,7 @@ public class Menu {
                     case 10 ->{
                         return new SirKhai();
                     }
-                    case 11 -> {
+                    case 0 -> {
                         typewriter("Returning to Main Menu.", 5);
                         return null;
                     }
@@ -231,7 +227,7 @@ public class Menu {
                 }
                 isValidChoice = true;
             } catch (Exception e) {
-                typewriter("Invalid input. Please enter a number between 1 and 11.", 5);
+                typewriter("Invalid input. Please enter a number between 0 and 9.", 5);
                 scanner.nextLine(); // Clear the invalid input
             }
         }
@@ -244,7 +240,7 @@ public class Menu {
 
         // AI selects a random character
         GameCharacter ai = null;
-        int aiPick = random.nextInt(6) + 1;
+        int aiPick = random.nextInt(9) + 1;
         switch (aiPick) {
             case 1 -> ai = new Achiron();
             case 2 -> ai = new Atalyn();
@@ -255,7 +251,6 @@ public class Menu {
             case 7 -> ai = new Biji();
             case 8 -> ai = new Selwyn();
             case 9 -> ai = new GoatedKit();
-            case 10 -> ai = new SirKhai();
         }
 
         assert ai != null; // AI selection is guaranteed by random range
@@ -286,18 +281,21 @@ public class Menu {
                     case 1 -> {
                         typewriter("You selected Easy difficulty.", 30);
                         GameCharacter[] easyOpponents = {new Vor(), new Orris(), new Orven(), new Achiron()};
+                        shuffleArray(easyOpponents);
                         arcadeBattle(player, easyOpponents);
                         isValid = true;
                     }
                     case 2 -> {
                         typewriter("You selected Medium difficulty.", 30);
                         GameCharacter[] mediumOpponents = {new Achiron(), new Vor(), new Orris(), new Orven(), new Biji(), new Selwyn()};
+                        shuffleArray(mediumOpponents);
                         arcadeBattle(player, mediumOpponents);
                         isValid = true;
                     }
                     case 3 -> {
                         typewriter("You selected Hard difficulty.", 30);
                         GameCharacter[] hardOpponents = {new Heralde(), new Achiron(), new Vor(), new Atalyn(), new Orris(), new Orven(), new Biji(), new Selwyn(), new GoatedKit()};
+                        shuffleArray(hardOpponents);
                         arcadeBattle(player, hardOpponents);
                         isValid = true;
                     }
@@ -308,6 +306,11 @@ public class Menu {
                 scanner.nextLine(); // Clear the invalid input
             }
         }
+    }
+
+    private void shuffleArray(GameCharacter[] array) {
+        List<GameCharacter> list = Arrays.asList(array);
+        Collections.shuffle(list);
     }
 
     private void arcadeBattle(GameCharacter player, GameCharacter[] opponents) {
@@ -332,7 +335,7 @@ public class Menu {
             scanner.nextLine();
 
             Battle battle = new Battle(player, opponents[i]);
-            battle.startBattle(true);
+            battle.startArcadeBattle(true);
 
             if (player.getHealth() > 0) {
                 defeatedOpponents++;

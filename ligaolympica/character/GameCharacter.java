@@ -109,6 +109,19 @@ public class GameCharacter implements CharacterInterface {
         extraAttack = false;
     }
 
+    public void resetForNewRound() {
+        this.health = this.maxHealth;
+        this.mana = this.maxMana;
+        this.isAlive = true;
+        this.damageBonus = 1.0;
+        this.statusEffectTurns = 0;
+        this.untargetable = false;
+        this.extraAttack = false;
+        this.skill1Cooldown = 0;
+        this.skill2Cooldown = 0;
+        this.skill3Cooldown = 0;
+    }
+
     public void takeDamage(int damage) {
         if (!this.isAlive) return;
 
@@ -153,21 +166,6 @@ public class GameCharacter implements CharacterInterface {
         this.mana = Math.min(this.mana + amount, this.maxMana);
     }
 
-    
-    //Reset character state for a new round
-    public void resetForNewRound() {
-        this.health = this.maxHealth;
-        this.mana = this.maxMana;
-        this.isAlive = true;
-        this.damageBonus = 1.0;
-        this.statusEffectTurns = 0;
-        this.untargetable = false;
-        this.extraAttack = false;
-        this.skill1Cooldown = 0;
-        this.skill2Cooldown = 0;
-        this.skill3Cooldown = 0;
-    }
-
     public void displayStats() {
         typewriter("\n" + name + " - HP: " + health + "/" + maxHealth + " | MP: " + mana + "/" + maxMana, 5);
         if (skill1Cooldown > 0 || skill2Cooldown > 0 || skill3Cooldown > 0) {
@@ -200,9 +198,16 @@ public class GameCharacter implements CharacterInterface {
         }
     }
 
-    // Non-overridable AI turn: use this when a character is controlled by the computer.
+    //this is when a character is controlled by the computer.
     public void autoTakeTurn(GameCharacter target) {
         int choice = random.nextInt(3) + 1;
+        if(choice == 1 && skill1Cooldown > 0) {
+            choice = (skill2Cooldown == 0) ? 2 : 3;
+        } else if(choice == 2 && skill2Cooldown > 0) {
+            choice = (skill3Cooldown == 0) ? 3 : 1;
+        } else if(choice == 3 && skill3Cooldown > 0) {
+            choice = (skill1Cooldown == 0) ? 1 : 2;
+        }
         switch (choice) {
             case 1 -> skill1(target);
             case 2 -> skill2(target);
