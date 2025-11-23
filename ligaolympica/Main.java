@@ -4,10 +4,8 @@ import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) {
-        // Clear screen effect (optional)
         System.out.println("\n\n\n");
 
-        // Title ASCII Art
         typewriter("        _     ___ ___    _      ___  _    __   __ __  ___ ___ ___ __    _", 10);
         typewriter("       | |   |_ _/ __|  /_\\    / _ \\| |   \\ \\ / /|  \\/  | _ \\_ _/ __|  /_\\ ", 10);
         typewriter("       | |__  | | (_ | / _ \\  | (_) | |__  \\ V / | |\\/| |  _/| | (__  / _ \\ ", 10);

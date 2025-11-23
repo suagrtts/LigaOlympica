@@ -183,7 +183,7 @@ public class Menu {
                 typewriter("8. Selwyn", 5);
                 typewriter("9. Goated Kit", 5);
                 typewriter("0. Exit to Main Menu", 5);
-                typewriter("Choose your character (1-10): ", 5);
+                typewriter("Choose your character (1-9): ", 5);
 
                 int choice = scanner.nextInt();
                 scanner.nextLine();
@@ -223,9 +223,10 @@ public class Menu {
                         typewriter("Returning to Main Menu.", 5);
                         return null;
                     }
-                    default -> typewriter("Invalid choice.", 5);
+                    default -> {
+                        typewriter("Invalid choice. Please enter a number between 1 and 9.", 5);
+                    }
                 }
-                isValidChoice = true;
             } catch (Exception e) {
                 typewriter("Invalid input. Please enter a number between 0 and 9.", 5);
                 scanner.nextLine(); // Clear the invalid input
