@@ -92,6 +92,7 @@ public class GameCharacter implements CharacterInterface {
     }
 
     // Update status effects and cooldowns each turn
+    @Override
     public void updateTurnEffects() {
         // Reduce cooldowns
         if (skill1Cooldown > 0) skill1Cooldown--;
@@ -109,6 +110,7 @@ public class GameCharacter implements CharacterInterface {
         extraAttack = false;
     }
 
+    @Override
     public void resetForNewRound() {
         this.health = this.maxHealth;
         this.mana = this.maxMana;
@@ -122,6 +124,7 @@ public class GameCharacter implements CharacterInterface {
         this.skill3Cooldown = 0;
     }
 
+    @Override
     public void takeDamage(int damage) {
         if (!this.isAlive) return;
 
@@ -144,6 +147,7 @@ public class GameCharacter implements CharacterInterface {
     }
 
     // True damage ignores mitigation and untargetable
+    @Override
     public void takeTrueDamage(int damage) {
         if (!this.isAlive) return;
         this.health -= damage;
@@ -153,19 +157,23 @@ public class GameCharacter implements CharacterInterface {
         }
     }
 
+    @Override
     public void heal(int amount) {
         this.health = Math.min(this.health + amount, this.maxHealth);
         System.out.println(this.name + " heals for " + amount + " HP! Health: " + this.health + "/" + this.maxHealth);
     }
 
+    @Override
     public void useMana(int amount) {
         this.mana = Math.max(0, this.mana - amount);
     }
 
+    @Override
     public void restoreMana(int amount) {
         this.mana = Math.min(this.mana + amount, this.maxMana);
     }
 
+    @Override
     public void displayStats() {
         typewriter("\n" + name + " - HP: " + health + "/" + maxHealth + " | MP: " + mana + "/" + maxMana, 5);
         if (skill1Cooldown > 0 || skill2Cooldown > 0 || skill3Cooldown > 0) {
@@ -177,6 +185,7 @@ public class GameCharacter implements CharacterInterface {
         }
     }
 
+    @Override
     public void showInfo() {
         typewriter("Character: " + name, 5);
         typewriter("Backstory: " + backstory, 5);
@@ -199,6 +208,7 @@ public class GameCharacter implements CharacterInterface {
     }
 
     //this is when a character is controlled by the computer.
+    @Override
     public void autoTakeTurn(GameCharacter target) {
         int choice = random.nextInt(3) + 1;
         if(choice == 1 && skill1Cooldown > 0) {
