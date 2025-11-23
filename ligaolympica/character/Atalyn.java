@@ -10,7 +10,7 @@ public class Atalyn extends GameCharacter {
         super("Atalyn", """
                                               Hunter of Artemis - Raised in forests where mortals fear to tread, Atalyn's arrow never misses.
                                               Said to be blessed at birth by Artemis, she hunts not for food, but for perfection in the chase.""",
-              1500, 950, "Skill 1: Piercing Arrow - A precise shot that deals 160 damage and ignores 20% of armor.", "Skill 2: Hunter's Reflex - Evade the next attack.", "Gods Gift: Moonlit Mark - Mark the target, increasing damage dealt by 25% for 2 turns.");
+              1500, 950, "Skill 1: Piercing Arrow - A precise shot that deals 360 damage and ignores 20% of armor.", "Skill 2: Hunter's Reflex - Evade the next attack.", "Gods Gift: Moonlit Mark - Mark the target, increasing damage dealt by 25% for 2 turns.");
     }
 
     @Override
@@ -24,7 +24,7 @@ public class Atalyn extends GameCharacter {
             this.useMana(150);
             this.skill1Cooldown = 1;
 
-            int baseDamage = 650;
+            int baseDamage = 360;
             int damage = randomDamage(baseDamage, 18); // ±18 damage variance
 
             // 20% armor pierce effect
