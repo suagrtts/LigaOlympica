@@ -28,8 +28,9 @@ public class Orris extends GameCharacter {
             int baseDamage = 300;
             int damage = randomDamage(baseDamage, 25); // ±25 damage variance
 
-            target.takeDamage(damage);
+            typewriter("A Tidal wave crashes onto " + target.getName() + "!", 30);
             typewriter("Dealt " + damage + " damage to " + target.getName() + "!", 10);
+            target.takeDamage(damage);
         }else{
             typewriter("Not enough mana!", 30);
         }
@@ -66,8 +67,9 @@ public class Orris extends GameCharacter {
 
             int trueDamage = 500; // True damage ignores defenses
 
-            target.takeTrueDamage(trueDamage);
+            typewriter("A Poseidon's wrath crashes down on " + target.getName() + "!", 30);
             typewriter("Dealt " + trueDamage + " true damage to " + target.getName() + "!", 10);
+            target.takeTrueDamage(trueDamage);
         }else{
             typewriter("Not enough mana!", 30);
         }
@@ -100,15 +102,11 @@ public class Orris extends GameCharacter {
 
     @Override
     public void takeTurn(GameCharacter target) {
-        if (this.isStunned) {
-            typewriter(name + " is stunned and cannot act!", 30);
-            this.isStunned = false; // Stun wears off after missing a turn
-            return; // Skip turn
-        }
         typewriter("\nChoose a skill for " + name + ":", 10);
         typewriter("1) Tidal Wave - 300 Base Damage - CD: " + skill1Cooldown, 10);
         typewriter("2) Ocean's Shield - Absorb part of incoming damage for 2 turns - CD: " + skill2Cooldown, 10);
         typewriter("3) Poseidon's Wrath - 500 True Damage - CD: " + skill3Cooldown, 10);
+        typewriter("0) Escape Battle", 10);
 
         boolean validChoice = false;
             while (!validChoice) {
@@ -141,6 +139,12 @@ public class Orris extends GameCharacter {
                             skill3(target);
                             validChoice = true;
                             }
+                    }
+                    case 0 -> {
+                        typewriter(name + " attempts to flee the battle!", 10);
+                        this.hasEscaped = true;
+                        validChoice = true;
+                        return;
                     }
                     default -> {
                         typewriter("Invalid choice.", 5);

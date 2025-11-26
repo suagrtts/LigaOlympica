@@ -22,6 +22,7 @@ public class GameCharacter implements CharacterInterface {
     // Generic flags used by various characters
     protected boolean untargetable = false;
     protected boolean isStunned = false;
+    protected boolean hasEscaped = false;
 
     // Cooldown tracking
     protected int skill1Cooldown = 0;
@@ -80,6 +81,15 @@ public class GameCharacter implements CharacterInterface {
     }
 
     @Override
+    public boolean hasEscaped() {
+        return hasEscaped;
+    }
+    @Override
+    public void setEscaped(boolean escaped) {
+        this.hasEscaped = escaped;
+    }
+
+    @Override
     public  void skill1(GameCharacter target) {
     }
     @Override
@@ -126,6 +136,7 @@ public class GameCharacter implements CharacterInterface {
         this.statusEffectTurns = 0;
         this.untargetable = false;
         this.isStunned = false;
+        this.hasEscaped = false;
         this.skill1Cooldown = 0;
         this.skill2Cooldown = 0;
         this.skill3Cooldown = 0;
@@ -141,9 +152,14 @@ public class GameCharacter implements CharacterInterface {
             return;
         }
 
-        // Apply damage modifier if a status effect is active
+        //Apply damage modifier if a status effect is active
         if (this.statusEffectTurns > 0 && this.damageBonus != 1.0) {
             damage = (int)(damage * this.damageBonus);
+
+            //Add feedback for damage reduction
+            if (this.damageBonus < 1.0) {
+                typewriter(this.name + " reduced the damage to " + damage, 10);
+            }
         }
 
         this.health -= damage;

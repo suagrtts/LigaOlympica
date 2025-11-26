@@ -26,8 +26,8 @@ public class SirKhai extends GameCharacter{
             int damage = randomDamage(baseDamage, 20);
 
             typewriter("Sir Khai gives you 1.0, now kys", 20);
-            target.takeDamage(damage);
             typewriter("Dealt " + damage + " to " + target.getName() + "!", 20);
+            target.takeDamage(damage);
         }else{
             typewriter("Not enough mana!", 20);
         }
@@ -46,13 +46,9 @@ public class SirKhai extends GameCharacter{
 
     @Override
     public void takeTurn(GameCharacter target){
-        if (this.isStunned) {
-            typewriter(name + " is stunned and cannot act!", 30);
-            this.isStunned = false; // Stun wears off after missing a turn
-            return; // Skip turn
-        }
         typewriter("Choose a skill for " + name + ": ", 20);
         typewriter("Skill 1: Tip of Ballpen, deals emotional damage", 20);
+        typewriter("0) Escape Battle", 20);
 
         boolean validChoice = false;
         while(!validChoice){
@@ -64,6 +60,12 @@ public class SirKhai extends GameCharacter{
                     case 1 -> {
                         skill1(target);
                         validChoice = true;
+                    }
+                    case 0 -> {
+                        typewriter(name + " Has more urgent matters to attend to, your mom!", 10);
+                        this.hasEscaped = true;
+                        validChoice = true;
+                        return;
                     }
                     default -> {
                         typewriter("Invalid choice. Get a job", 20);

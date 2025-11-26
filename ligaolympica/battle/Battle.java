@@ -5,24 +5,26 @@ import ligaolympica.character.GameCharacter;
 public class Battle {
     private final GameCharacter player1;
     private final GameCharacter player2;
+    private boolean battleEscaped = false;
 
     public Battle(GameCharacter player1, GameCharacter player2) {
         this.player1 = player1;
         this.player2 = player2;
     }
 
-    public void startBattle() {
-        startBattle(false);
+    public boolean startBattle() {
+        return startBattle(false);
     }
 
     // New overload: if player2IsComputer is true, player2 will use autoTakeTurn
-    public void startBattle(boolean player2IsComputer) {
+    public boolean startBattle(boolean player2IsComputer) {
         // Best of 3 rounds: first to 2 wins
         System.out.println("\nMatch Start (Best of 3): " + player1.getName() + " vs " + player2.getName());
 
         int wins1 = 0;
         int wins2 = 0;
         int round = 1;
+
         final int maxRounds = 3;
 
         while (wins1 < 2 && wins2 < 2 && round <= maxRounds) {
@@ -83,6 +85,12 @@ public class Battle {
                     attacker.autoTakeTurn(defender);
                 } else {
                     attacker.takeTurn(defender);
+
+                    if (attacker.hasEscaped()) {
+                        this.battleEscaped = true;
+                        typewriter("\n" + attacker.getName() + " has fled the battle!", 10);
+                        return false;  // ← Return false to indicate escape
+                    }
                 }
 
                 // Show status for the acting character
@@ -131,13 +139,14 @@ public class Battle {
             typewriter("\nThe match ended without a decisive winner.", 10);
         }
         System.out.println();
+        return true;
     }
 
-    public void startArcadeBattle() {
-        startArcadeBattle(true);
+    public boolean startArcadeBattle() {
+        return startArcadeBattle(true);
     }
 
-    public void startArcadeBattle(boolean player2IsComputer) {
+    public boolean startArcadeBattle(boolean player2IsComputer) {
         System.out.println("\nBattle Start: " + player1.getName() + " vs " + player2.getName());
 
         GameCharacter attacker = player1;
@@ -180,6 +189,12 @@ public class Battle {
                 attacker.autoTakeTurn(defender);
             } else {
                 attacker.takeTurn(defender);
+
+                if (attacker.hasEscaped()) {
+                    this.battleEscaped = true;
+                    typewriter("\n" + attacker.getName() + " has fled the battle!", 10);
+                    return false;  // ← Return false to indicate escape
+                }
             }
 
             // Show status
@@ -212,6 +227,7 @@ public class Battle {
             typewriter("╚════════════════════════════╝", 0);
             System.out.println();
         }
+        return true; //This can be reached if the battle ends normally
     }
 
     public void typewriter(String text, int delay) {

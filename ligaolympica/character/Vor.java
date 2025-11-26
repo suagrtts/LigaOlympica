@@ -3,8 +3,6 @@ import java.util.*;
 
 public class Vor extends GameCharacter {
     Scanner scan = new Scanner(System.in);
-    private boolean nextAttackEvaded = false;
-
 
     public Vor() {
         super("Vor", """
@@ -41,14 +39,16 @@ public class Vor extends GameCharacter {
         if(skill2Cooldown > 0){
             return;
         }else{
-        typewriter("\n" + name + " activates TEMPORAL SHIFT!", 30);
+            typewriter("\n" + name + " activates TEMPORAL SHIFT!", 30);
         }
         if (this.mana >= 120) {
             this.useMana(120);
             this.skill2Cooldown = 2;
 
-            this.nextAttackEvaded = true;
-            typewriter("Time freezes momentarily, allowing " + name + " to evade the next attack!", 30);
+            this.untargetable = true;
+            this.statusEffectTurns = 1; // Lasts for 1 turn
+
+            typewriter("Time freezes momentarily! " + name + " will evade the next attack!", 30);
         } else {
             typewriter("Not enough mana!", 30);
         }
@@ -90,33 +90,14 @@ public class Vor extends GameCharacter {
             typewriter(name + " - Health: " + health + "|" + maxHealth + ", Mana: " + mana + "/" + maxMana, 10);
             }
 
-    @Override
-    public void takeDamage(int damage) {
-        if (nextAttackEvaded) {
-            typewriter(this.name + " timely evades the attack!", 30);
-            nextAttackEvaded = false;
-            return;
-        }
-        super.takeDamage(damage);
-    }
-
-    @Override
-    public void restoreMana(int amount) {
-        this.mana = Math.min(this.mana + amount, this.maxMana);
-
-    }
 
     @Override
     public void takeTurn(GameCharacter target) {
-        if (this.isStunned) {
-            typewriter(name + " is stunned and cannot act!", 30);
-            this.isStunned = false; // Stun wears off after missing a turn
-            return; // Skip turn
-        }
         typewriter("\nChoose a skill for " + name + ":", 10);
         typewriter("1) Time Slash - 300 Base Damage - CD: " + skill1Cooldown, 10);
         typewriter("2) Temporal Shift - Evade Next Attack - CD: " + skill2Cooldown, 10);
         typewriter("3) Chrono Mark - Increase Damage by 25% - CD: " + skill3Cooldown, 10);
+        typewriter("0) Escape Battle", 10);
 
         boolean validChoice = false;
         while (!validChoice) {
@@ -146,8 +127,13 @@ public class Vor extends GameCharacter {
                             typewriter("Skill is on cooldown for " + skill3Cooldown + " more turns!", 5);
                         } else {
                             skill3(target);
-                            validChoice = true;
                         }
+                    }
+                    case 0 -> {
+                        typewriter(name + " attempts to flee the battle!", 10);
+                        this.hasEscaped = true;
+                        validChoice = true;
+                        return;
                     }
                     default -> {
                         typewriter("Invalid choice. Please enter 1, 2, or 3.", 5);

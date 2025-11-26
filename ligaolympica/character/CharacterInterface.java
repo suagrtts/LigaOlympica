@@ -26,5 +26,7 @@ public interface CharacterInterface {
     void updateTurnEffects();
     boolean isStunned();
     void setStunned(boolean stunned);
+    boolean hasEscaped();
+    void setEscaped(boolean escaped);
 
 }

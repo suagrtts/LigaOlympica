@@ -34,9 +34,9 @@ public class GoatedKit extends GameCharacter {
                 typewriter("Enhanced by Talona's Might!", 30);
             }
 
-            target.takeDamage(damage);
             typewriter("Rabies infects " + target.getName() + "!", 30);
-            typewriter("Dealt " + damage + " damage!", 10);
+            typewriter("Dealt " + damage + " damage to " + target.getName() + "!", 10);
+            target.takeDamage(damage);
         }else{
             typewriter("Not enough mana!", 30);
         }
@@ -72,9 +72,9 @@ public class GoatedKit extends GameCharacter {
             this.useMana(400);
             this.skill3Cooldown = 5;
 
-            this.damageBonus = 1.5;
+            this.damageBonus = 1.2;
             this.statusEffectTurns = 3;
-            typewriter("TALONA'S MIGHT ACTIVATED! +50% bite damage for 3 turns!", 30);
+            typewriter("TALONA'S MIGHT ACTIVATED! +20% bite damage for 3 turns!", 30);
         } else {
             typewriter("Not enough mana!", 30);
         }
@@ -106,15 +106,11 @@ public class GoatedKit extends GameCharacter {
 
     @Override
     public void takeTurn(GameCharacter target) {
-        if (this.isStunned) {
-            typewriter(name + " is stunned and cannot act!", 30);
-            this.isStunned = false; // Stun wears off after missing a turn
-            return; // Skip turn
-        }
         typewriter("\nChoose a skill for " + name + ":", 30);
         typewriter("1) Kit Kit - 300 Base Damage - CD: " + skill1Cooldown, 30);
         typewriter("2) Rat Spot - Dodge All Attacks for 2 Turns - CD: " + skill2Cooldown, 30);
         typewriter("3) Talona's Might - +50% Damage for 3 Turns - CD: " + skill3Cooldown, 30);
+        typewriter("0) Escape Battle", 30);
 
         boolean validChoice = false;
         while (!validChoice) {
@@ -146,6 +142,12 @@ public class GoatedKit extends GameCharacter {
                             skill3(target);
                             validChoice = true;
                         }
+                    }
+                    case 0 -> {
+                        typewriter(name + " attempts to flee the battle!", 10);
+                        this.hasEscaped = true;
+                        validChoice = true;
+                        return;
                     }
                     default -> {
                         typewriter("Invalid choice.", 10);

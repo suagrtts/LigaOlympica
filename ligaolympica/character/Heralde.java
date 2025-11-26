@@ -28,8 +28,9 @@ public class Heralde extends GameCharacter {
             int baseDamage = 220;
             int damage = randomDamage(baseDamage, 20); // ±20 damage variance
 
-            target.takeDamage(damage);
+            typewriter("A Lion's strike lands on " + target.getName() + "!", 30);
             typewriter("Dealt " + damage + " damage to " + target.getName() + "!", 10);
+            target.takeDamage(damage);
         }else{
             typewriter("Not enough mana!", 30);
         }
@@ -66,19 +67,11 @@ public class Heralde extends GameCharacter {
 
             int trueDamage = 400; // True damage ignores defenses
 
-            target.takeDamage(trueDamage);
             typewriter("Zeus' lightning strikes " + target.getName() + " for " + trueDamage + " true damage!", 10);
+            target.takeTrueDamage(trueDamage);
         }else{
             typewriter("Not enough mana!", 30);
         }
-    }
-    @Override
-    public void takeDamage(int damage) {
-        if(this.statusEffectTurns > 0 && this.damageBonus < 1.0){
-            damage = (int)(damage * this.damageBonus);
-            typewriter(name + "'s Iron Hide reduces the damage to " + damage + "!", 10);
-        }
-        super.takeDamage(damage);
     }
 
     @Override
@@ -99,15 +92,11 @@ public class Heralde extends GameCharacter {
     }
     @Override
     public void takeTurn(GameCharacter target) {
-        if (this.isStunned) {
-            typewriter(name + " is stunned and cannot act!", 30);
-            this.isStunned = false; // Stun wears off after missing a turn
-            return; // Skip turn
-        }
         typewriter("\nChoose a skill for " + name + ":", 10);
         typewriter("1) Lion's Strike - 220 Base Damage - CD: " + skill1Cooldown, 10);
         typewriter("2) Iron Hide - Reduce incoming damage by 30% for 2 turns - CD: " + skill2Cooldown, 10);
         typewriter("3) Thunder Wrath (God-Gift Zeus) - 400 True Damage - CD: " + skill3Cooldown, 10);
+        typewriter("0) Escape Battle", 10);
 
         boolean validChoice = false;
         while (!validChoice) {
@@ -140,11 +129,17 @@ public class Heralde extends GameCharacter {
                                 validChoice = true;
                                 }
                         }
-                        default -> {
-                            typewriter("Invalid choice.", 5);
-                            scan.next();
-                        }
+                    case 0 -> {
+                        typewriter(name + " attempts to flee the battle!", 10);
+                        this.hasEscaped = true;
+                        validChoice = true;
+                        return;
                     }
+                    default -> {
+                        typewriter("Invalid choice.", 5);
+                        scan.next();
+                    }
+                }
             }catch(Exception e){
                 typewriter("Invalid input. Please enter a number between 1 and 3.", 5);
                 scan.next(); // clear invalid input

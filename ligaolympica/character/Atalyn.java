@@ -108,15 +108,11 @@ public class Atalyn extends GameCharacter {
 
     @Override
     public void takeTurn(GameCharacter target) {
-        if (this.isStunned) {
-            typewriter(name + " is stunned and cannot act!", 30);
-            this.isStunned = false; // Stun wears off after missing a turn
-            return; // Skip turn
-        }
         typewriter("\nChoose a skill for " + name + ":", 10);
         typewriter("1) Piercing Arrow - 360 Base Damage - CD: " + skill1Cooldown, 10);
         typewriter("2) Hunter's Reflex - Evade Next Attack - CD: " + skill2Cooldown, 10);
         typewriter("3) Moonlit Mark - Increase Damage by 50% - CD: " + skill3Cooldown, 10);
+        typewriter("0) Escape Battle", 10);
 
         boolean validChoice = false;
             while (!validChoice) {
@@ -149,6 +145,12 @@ public class Atalyn extends GameCharacter {
                             skill3(target);
                             validChoice = true;
                             }
+                    }
+                    case 0 -> {
+                        typewriter(name + " attempts to flee the battle!", 10);
+                        this.hasEscaped = true;
+                        validChoice = true;
+                        return;
                     }
                     default -> {
                         typewriter("Invalid choice.", 5);

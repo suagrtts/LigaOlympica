@@ -43,11 +43,10 @@ public class Menu {
         sirKhai = new SirKhai();
     }
 
-    private void startBattle(GameCharacter player1, GameCharacter player2) {
+    private boolean startBattle(GameCharacter player1, GameCharacter player2) {
         Battle battle = new Battle(player1, player2);
-        battle.startBattle();
+        return battle.startBattle(false);
     }
-
 
     public void showMainMenu() {
         boolean running = true;
@@ -165,7 +164,12 @@ public class Menu {
         typewriter(player1.getName(), 10);
         typewriter("\nPlayer 2 selected: ", 10);
         typewriter(player2.getName(), 10);
-        startBattle(player1, player2);
+
+        boolean battleCompleted = startBattle(player1, player2);
+
+        if (!battleCompleted) {
+            typewriter("\nBattle escaped! Returning to main menu...", 30);
+        }
     }
 
     private GameCharacter selectCharacter(int playerNumber) {
@@ -262,7 +266,11 @@ public class Menu {
 
         // Start battle
         Battle battle = new Battle(player, ai);
-        battle.startBattle(true);
+        boolean battleCompleted = battle.startBattle(true);
+
+        if (!battleCompleted) {
+            typewriter("\nPlayer escaped! Returning to main menu...", 30);
+        }
     }
 
     private void startArcadeMode() {
@@ -274,6 +282,7 @@ public class Menu {
                 typewriter("1. Easy", 30);
                 typewriter("2. Medium", 30);
                 typewriter("3. Hard", 30);
+                typewriter("0. Return to Main Menu", 30);
                 System.out.print("Choose an option (1-3): ");
                 int choice = scanner.nextInt();
                 scanner.nextLine();
@@ -299,6 +308,10 @@ public class Menu {
                         shuffleArray(hardOpponents);
                         arcadeBattle(player, hardOpponents);
                         isValid = true;
+                    }
+                    case 0 -> {
+                        typewriter("Returning to Main Menu.", 30);
+                        return;
                     }
                     default -> typewriter("Invalid choice. Please enter a number between 1 and 3.", 30);
                 }
@@ -336,16 +349,23 @@ public class Menu {
             scanner.nextLine();
 
             Battle battle = new Battle(player, opponents[i]);
-            battle.startArcadeBattle(true);
+            boolean battleCompleted = battle.startArcadeBattle(true);
+
+            if (!battleCompleted) {
+                typewriter("\n*** You escaped from Arcade Mode! ***", 50);
+                typewriter("You defeated " + defeatedOpponents + " opponent(s) before escaping.", 30);
+                typewriter("Returning to main menu...", 30);
+                return;  // Exit arcade mode and return to menu
+            }
 
             if (player.getHealth() > 0) {
                 defeatedOpponents++;
                 typewriter("\n*** Victory! ***", 50);
                 typewriter("Opponents defeated: " + defeatedOpponents + "/" + opponents.length, 30);
 
-                // Optional: Restore some health between battles
+                //Restore some health between battles
                 if (i < opponents.length - 1) { // Not the last battle
-                    int healAmount = (int)((double)player.getMaxHealth() / 1.5); // Heal 75% of max health
+                    int healAmount = (int)((double)player.getMaxHealth() * 0.75); // Heal 75% of max health
                     player.heal(healAmount);
                     typewriter("You recovered " + healAmount + " HP!", 30);
                     typewriter("Current HP: " + player.getHealth() + "/" + player.getMaxHealth() + "\n", 30);
