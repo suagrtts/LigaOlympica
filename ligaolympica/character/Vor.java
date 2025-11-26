@@ -73,17 +73,17 @@ public class Vor extends GameCharacter {
             typewriter("Not enough mana!", 30);
         }
     }
-    
+
     @Override
     public void displayStats() {
             if(skill1Cooldown > 0) {
-                typewriter("Time Slash: is on cooldown for " + this.skill1Cooldown + " turns.", 10);
+                typewriter("Time Slash is on cooldown for " + this.skill1Cooldown + " turns.", 10);
             }
             if(skill2Cooldown > 0) {
-                typewriter("Temporal Shift: is on cooldown for " + this.skill2Cooldown + " turns.", 10);
+                typewriter("Temporal Shift is on cooldown for " + this.skill2Cooldown + " turns.", 10);
             }
             if(skill3Cooldown > 0) {
-                typewriter("Chrono Mark: is on cooldown for " + this.skill3Cooldown + " turns.", 10);
+                typewriter("Chrono Mark is on cooldown for " + this.skill3Cooldown + " turns.", 10);
             }
 
             System.out.println();
@@ -108,6 +108,11 @@ public class Vor extends GameCharacter {
 
     @Override
     public void takeTurn(GameCharacter target) {
+        if (this.isStunned) {
+            typewriter(name + " is stunned and cannot act!", 30);
+            this.isStunned = false; // Stun wears off after missing a turn
+            return; // Skip turn
+        }
         typewriter("\nChoose a skill for " + name + ":", 10);
         typewriter("1) Time Slash - 300 Base Damage - CD: " + skill1Cooldown, 10);
         typewriter("2) Temporal Shift - Evade Next Attack - CD: " + skill2Cooldown, 10);

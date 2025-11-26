@@ -9,7 +9,7 @@ public class Orris extends GameCharacter {
                             A demigod son of Poseidon, Orris commands the power of water and storms.
                             His temper is as fierce as the sea, and his loyalty to friends is unwavering.""",
                 1500, 600,  "Skill 1: Tidal Wave - Unleash a wave that deals 300 damage to all enemies.",
-                            "Skill 2: Ocean's Shield - Create a shield that absorbs 200 damage for 2 turns.",
+                            "Skill 2: Ocean's Shield - Create a shield that absorbs 20% damage for 2 turns.",
                             "Gods Gift: Poseidon's Wrath - Summon a devastating tsunami that deals 500 true damage to all enemies."
         );
     }
@@ -76,13 +76,13 @@ public class Orris extends GameCharacter {
     @Override
     public void displayStats() {
             if(skill1Cooldown > 0) {
-                typewriter("Tidal Wave: is on cooldown for " + this.skill1Cooldown + " turns.", 10);
+                typewriter("Tidal Wave is on cooldown for " + this.skill1Cooldown + " turns.", 10);
             }
             if(skill2Cooldown > 0) {
-                typewriter("Ocean's Shield: is on cooldown for " + this.skill2Cooldown + " turns.", 10);
+                typewriter("Ocean's Shield is on cooldown for " + this.skill2Cooldown + " turns.", 10);
             }
             if(skill3Cooldown > 0) {
-                typewriter("Poseidon's Wrath: is on cooldown for " + this.skill3Cooldown + " turns.", 10);
+                typewriter("Poseidon's Wrath is on cooldown for " + this.skill3Cooldown + " turns.", 10);
             }
 
             System.out.println();
@@ -100,6 +100,11 @@ public class Orris extends GameCharacter {
 
     @Override
     public void takeTurn(GameCharacter target) {
+        if (this.isStunned) {
+            typewriter(name + " is stunned and cannot act!", 30);
+            this.isStunned = false; // Stun wears off after missing a turn
+            return; // Skip turn
+        }
         typewriter("\nChoose a skill for " + name + ":", 10);
         typewriter("1) Tidal Wave - 300 Base Damage - CD: " + skill1Cooldown, 10);
         typewriter("2) Ocean's Shield - Absorb part of incoming damage for 2 turns - CD: " + skill2Cooldown, 10);

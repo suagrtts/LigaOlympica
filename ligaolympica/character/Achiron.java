@@ -48,7 +48,7 @@ public class Achiron extends GameCharacter {
             // Reduce incoming damage by 50% for the next attack
             this.damageBonus = 0.5;
 
-            target.statusEffectTurns = 1;
+            this.statusEffectTurns = 1;
         } else {
             typewriter("Not enough mana!", 30);
         }
@@ -87,13 +87,13 @@ public class Achiron extends GameCharacter {
     @Override
     public void displayStats() {
             if(skill1Cooldown > 0) {
-                typewriter("Spear Thrust: is on cooldown for " + this.skill1Cooldown + " turns.", 10);
+                typewriter("Spear Thrust is on cooldown for " + this.skill1Cooldown + " turns.", 10);
             }
             if(skill2Cooldown > 0) {
-                typewriter("Shield Bash: is on cooldown for " + this.skill2Cooldown + " turns.", 10);
+                typewriter("Aegis Shield is on cooldown for " + this.skill2Cooldown + " turns.", 10);
             }
             if(skill3Cooldown > 0) {
-                typewriter("Wrath of Ares: is on cooldown for " + this.skill3Cooldown + " turns.", 10);
+                typewriter("Wrath of Ares is on cooldown for " + this.skill3Cooldown + " turns.", 10);
             }
             System.out.println();
             typewriter(name + " - Health: " + health + "|" + maxHealth + " Mana: " + mana + "/" + maxMana, 10);
@@ -101,9 +101,14 @@ public class Achiron extends GameCharacter {
 
     @Override
     public void takeTurn(GameCharacter target) {
+        if (this.isStunned) {
+            typewriter(name + " is stunned and cannot act!", 30);
+            this.isStunned = false; // Stun wears off after missing a turn
+            return; // Skip turn
+        }
             typewriter("\nChoose a skill for " + name + ":", 30);
             typewriter("1) Spear Thrust - 400 Base Damage - CD: " + skill1Cooldown, 30);
-            typewriter("2) Shield Bash - Reduce Damage by 50% - CD: " + skill2Cooldown, 30);
+            typewriter("2) Aegis Shield - Reduce Damage by 50% - CD: " + skill2Cooldown, 30);
             typewriter("3) Wrath of Ares - Increase Damage by 50% - CD: " + skill3Cooldown, 30);
 
             boolean validChoice = false;

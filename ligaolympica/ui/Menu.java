@@ -55,9 +55,9 @@ public class Menu {
             try {
                 typewriter("Main Menu", 30);
                 typewriter("1. Start PvP Game", 30);
-                typewriter("2. Start PvAI Game", 30);
-                typewriter("3. Show Characters", 30);
-                typewriter("4. Start Arcade Mode", 30);
+                typewriter("2. Start PvE Game", 30);
+                typewriter("3. Start Arcade Mode", 30);
+                typewriter("4. Show Characters", 30);
                 typewriter("5. Exit", 30);
                 System.out.print("Choose an option: ");
                 int choice = scanner.nextInt();
@@ -66,8 +66,8 @@ public class Menu {
                 switch (choice) {
                     case 1 -> startGame();
                     case 2 -> startGameAI();
-                    case 3 -> showCharacterInfo();
-                    case 4 -> startArcadeMode();
+                    case 3 -> startArcadeMode();
+                    case 4 -> showCharacterInfo();
                     case 5 -> {
                         typewriter("Exiting game. Goodbye!", 30);
                         running = false;
@@ -95,7 +95,7 @@ public class Menu {
                 typewriter("8. Selwyn", 30);
                 typewriter("9. Goated Kit", 30);
                 typewriter("0. Return to Main Menu", 30);
-                System.out.print("Select a character to view details (1-10): ");
+                System.out.print("Select a character to view details (1-9): ");
 
                 int pick = scanner.nextInt();
                 scanner.nextLine();
@@ -148,7 +148,7 @@ public class Menu {
                     default -> typewriter("Invalid character choice.", 30);
                 }
             } catch (InputMismatchException e) {
-                typewriter("Invalid input. Please enter a number between 1 and 11.", 30);
+                typewriter("Invalid input. Please enter a number between 0 and 9.", 30);
                 scanner.nextLine(); // Clear the invalid input
             }
         }

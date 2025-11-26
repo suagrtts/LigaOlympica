@@ -95,13 +95,13 @@ public class Selwyn extends GameCharacter {
     @Override
     public void displayStats() {
         if(skill1Cooldown > 0) {
-            typewriter("Rage Bait: is on cooldown for " + this.skill1Cooldown + " turns.", 10);
+            typewriter("Rage Bait is on cooldown for " + this.skill1Cooldown + " turns.", 10);
         }
         if(skill2Cooldown > 0) {
-            typewriter("Respawn Shield: is on cooldown for " + this.skill2Cooldown + " turns.", 10);
+            typewriter("Respawn Shield is on cooldown for " + this.skill2Cooldown + " turns.", 10);
         }
         if(skill3Cooldown > 0) {
-            typewriter("Loki's Hack: is on cooldown for " + this.skill3Cooldown + " turns.", 10);
+            typewriter("Loki's Hack is on cooldown for " + this.skill3Cooldown + " turns.", 10);
         }
         System.out.println();
         typewriter(name + " - Health: " + health + "|" + maxHealth + " Mana: " + mana + "/" + maxMana, 10);
@@ -109,6 +109,11 @@ public class Selwyn extends GameCharacter {
 
     @Override
     public void takeTurn(GameCharacter target) {
+        if (this.isStunned) {
+            typewriter(name + " is stunned and cannot act!", 30);
+            this.isStunned = false; // Stun wears off after missing a turn
+            return; // Skip turn
+        }
         typewriter("\nChoose a skill for " + name + ":", 30);
         typewriter("1) Rage Bait - 420 Base Damage - CD: " + skill1Cooldown, 30);
         typewriter("2) Respawn Shield - Reduce Next Damage by 60% - CD: " + skill2Cooldown, 30);

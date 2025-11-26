@@ -21,7 +21,7 @@ public class GameCharacter implements CharacterInterface {
 
     // Generic flags used by various characters
     protected boolean untargetable = false;
-    protected boolean extraAttack = false;
+    protected boolean isStunned = false;
 
     // Cooldown tracking
     protected int skill1Cooldown = 0;
@@ -70,6 +70,14 @@ public class GameCharacter implements CharacterInterface {
     public boolean isAlive() {
         return isAlive;
     }
+    @Override
+    public boolean isStunned() {
+        return isStunned;
+    }
+    @Override
+    public void setStunned(boolean stunned) {
+        this.isStunned = stunned;
+    }
 
     @Override
     public  void skill1(GameCharacter target) {
@@ -98,6 +106,7 @@ public class GameCharacter implements CharacterInterface {
         if (skill1Cooldown > 0) skill1Cooldown--;
         if (skill2Cooldown > 0) skill2Cooldown--;
         if (skill3Cooldown > 0) skill3Cooldown--;
+
         // Reduce status effect duration and reset temporary modifiers when they expire
         if (statusEffectTurns > 0) {
             statusEffectTurns--;
@@ -106,8 +115,6 @@ public class GameCharacter implements CharacterInterface {
                 untargetable = false;
             }
         }
-        // extraAttack is a one-turn flag; reset it each update
-        extraAttack = false;
     }
 
     @Override
@@ -118,7 +125,7 @@ public class GameCharacter implements CharacterInterface {
         this.damageBonus = 1.0;
         this.statusEffectTurns = 0;
         this.untargetable = false;
-        this.extraAttack = false;
+        this.isStunned = false;
         this.skill1Cooldown = 0;
         this.skill2Cooldown = 0;
         this.skill3Cooldown = 0;

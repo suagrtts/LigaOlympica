@@ -11,7 +11,7 @@ public class Biji extends GameCharacter {
                 1600, 1200,
                 "Skill 1: Power Chord - Strikes a devastating guitar chord that sends sonic waves crashing into enemies. Deals 380 damage.",
                 "Skill 2: Healing Hymn - Plays a soothing melody blessed by Apollo. Restores 400 HP.",
-                "Gods Gift: Symphony of Destruction - Channels Apollo's divine music. Deals massive damage and stuns the opponent for 1 turn.");
+                "Gods Gift: Symphony of Destruction - Channels Apollo's divine music. Deals massive damage to opponent and stuns them.");
     }
 
     @Override
@@ -72,8 +72,8 @@ public class Biji extends GameCharacter {
 
             typewriter("Divine music overwhelms the battlefield!", 30);
             target.takeDamage(damage);
-            target.statusEffectTurns = 1; // Stun for 1 turn
-            typewriter("Dealt " + damage + " damage! " + target.getName() + " is stunned!", 10);
+            target.isStunned = true;
+            typewriter("Dealt " + damage + " damage! to " + target.getName() + " and is stunned ", 10);
         } else {
             typewriter("Not enough mana!", 30);
         }
@@ -82,13 +82,13 @@ public class Biji extends GameCharacter {
     @Override
     public void displayStats() {
         if(skill1Cooldown > 0) {
-            typewriter("Power Chord: is on cooldown for " + this.skill1Cooldown + " turns.", 10);
+            typewriter("Power Chord is on cooldown for " + this.skill1Cooldown + " turns.", 10);
         }
         if(skill2Cooldown > 0) {
-            typewriter("Healing Hymn: is on cooldown for " + this.skill2Cooldown + " turns.", 10);
+            typewriter("Healing Hymn is on cooldown for " + this.skill2Cooldown + " turns.", 10);
         }
         if(skill3Cooldown > 0) {
-            typewriter("Symphony of Destruction: is on cooldown for " + this.skill3Cooldown + " turns.", 10);
+            typewriter("Symphony of Destruction is on cooldown for " + this.skill3Cooldown + " turns.", 10);
         }
         System.out.println();
         typewriter(name + " - Health: " + health + "|" + maxHealth + " Mana: " + mana + "/" + maxMana, 10);
@@ -96,10 +96,15 @@ public class Biji extends GameCharacter {
 
     @Override
     public void takeTurn(GameCharacter target) {
+        if (this.isStunned) {
+            typewriter(name + " is stunned and cannot act!", 30);
+            this.isStunned = false; // Stun wears off after missing a turn
+            return; // Skip turn
+        }
         typewriter("\nChoose a skill for " + name + ":", 30);
         typewriter("1) Power Chord - 380 Base Damage - CD: " + skill1Cooldown, 30);
         typewriter("2) Healing Hymn - Heal 400 HP - CD: " + skill2Cooldown, 30);
-        typewriter("3) Symphony of Destruction - 600 Damage + Stun - CD: " + skill3Cooldown, 30);
+        typewriter("3) Symphony of Destruction - 600 Damage and stuns them - CD: " + skill3Cooldown, 30);
 
         boolean validChoice = false;
         while (!validChoice) {

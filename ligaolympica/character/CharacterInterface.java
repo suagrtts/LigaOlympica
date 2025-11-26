@@ -24,5 +24,7 @@ public interface CharacterInterface {
     void showInfo();
     void resetForNewRound();
     void updateTurnEffects();
+    boolean isStunned();
+    void setStunned(boolean stunned);
 
 }

@@ -63,12 +63,22 @@ public class Orven extends GameCharacter {
         if(this.mana >= 200){
             this.useMana(200);
             this.skill3Cooldown = 5;
-            this.extraAttack = true; // Can attack twice in one turn
-            typewriter(name + " moves with the speed of Hermes, allowing an extra attack this turn!", 10);
+
+            //Just attack twice immediately instead of setting a flag
+            typewriter(name + " moves with the speed of Hermes!", 10);
+            typewriter("\n>>> First Strike! <<<", 20);
+            skill1(target);
+
+            if(target.isAlive()) {
+                this.skill1Cooldown = 0; // Reset cooldown to allow second attack
+                typewriter("\n>>> Second Strike! <<<", 20);
+                skill1(target);
+            }
         }else{
             typewriter("Not enough mana!", 30);
         }
     }
+
     @Override
     public void takeDamage(int damage) {
         if(this.statusEffectTurns > 0 && this.untargetable){
@@ -80,13 +90,13 @@ public class Orven extends GameCharacter {
     @Override
     public void displayStats() {
         if(skill1Cooldown > 0){
-            typewriter(skill1 + " (Cooldown: " + skill1Cooldown + " turns)\n", 10);
+            typewriter("Swift Strike is on cooldown for " + skill1Cooldown + " turns.\n", 10);
         }
         if(skill2Cooldown > 0){
-            typewriter(skill2 + " (Cooldown: " + skill2Cooldown + " turns)\n", 10);
+            typewriter("Vanish is on cooldown for " + skill2Cooldown + " turns.\n", 10);
         }
         if(skill3Cooldown > 0){
-            typewriter(skill3 + " (Cooldown: " + skill3Cooldown + " turns)\n", 10);
+            typewriter("Hermes' Speed is on cooldown for " + skill3Cooldown + " turns.\n", 10);
         }
         System.out.println();
         typewriter(name + " - Health: " + health + "|" + maxHealth + ", Mana: " + mana + "/" + maxMana, 10);
@@ -94,6 +104,11 @@ public class Orven extends GameCharacter {
 
     @Override
     public void takeTurn(GameCharacter target){
+        if (this.isStunned) {
+            typewriter(name + " is stunned and cannot act!", 30);
+            this.isStunned = false; // Stun wears off after missing a turn
+            return; // Skip turn
+        }
         typewriter("\nChoose a skill for " + name + ":", 10);
         typewriter("1) Swift Strike - 250 Base Damage - CD: " + skill1Cooldown, 10);
         typewriter("2) Vanish - Untargetable Next Turn - CD: " + skill2Cooldown, 10);

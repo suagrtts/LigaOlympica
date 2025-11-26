@@ -84,21 +84,26 @@ public class Heralde extends GameCharacter {
     @Override
     public void displayStats() {
         if(skill1Cooldown > 0) {
-            typewriter("Lion's Strike: is on cooldown for " + this.skill1Cooldown + " turns.", 10);
+            typewriter("Lion's Strike is on cooldown for " + this.skill1Cooldown + " turns.", 10);
         }
 
         if(skill2Cooldown > 0) {
-            typewriter("Iron Hide: is on cooldown for " + this.skill2Cooldown + " turns.", 10);
+            typewriter("Iron Hide is on cooldown for " + this.skill2Cooldown + " turns.", 10);
         }
 
         if(skill3Cooldown > 0) {
-            typewriter("Thunder Wrath: is on cooldown for " + this.skill3Cooldown + " turns.", 10);
+            typewriter("Thunder Wrath is on cooldown for " + this.skill3Cooldown + " turns.", 10);
         }
         System.out.println();
         typewriter(name + " - Health: " + this.health + "/" + this.maxHealth + " | Mana: " + this.mana + "/" + this.maxMana, 10);
     }
     @Override
     public void takeTurn(GameCharacter target) {
+        if (this.isStunned) {
+            typewriter(name + " is stunned and cannot act!", 30);
+            this.isStunned = false; // Stun wears off after missing a turn
+            return; // Skip turn
+        }
         typewriter("\nChoose a skill for " + name + ":", 10);
         typewriter("1) Lion's Strike - 220 Base Damage - CD: " + skill1Cooldown, 10);
         typewriter("2) Iron Hide - Reduce incoming damage by 30% for 2 turns - CD: " + skill2Cooldown, 10);

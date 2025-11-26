@@ -92,13 +92,13 @@ public class GoatedKit extends GameCharacter {
     @Override
     public void displayStats() {
         if(skill1Cooldown > 0) {
-            typewriter("Kit Kit: is on cooldown for " + this.skill1Cooldown + " turns.", 10);
+            typewriter("Kit Kit is on cooldown for " + this.skill1Cooldown + " turns.", 10);
         }
         if(skill2Cooldown > 0) {
-            typewriter("Rat Spot: is on cooldown for " + this.skill2Cooldown + " turns.", 10);
+            typewriter("Rat Spot is on cooldown for " + this.skill2Cooldown + " turns.", 10);
         }
         if(skill3Cooldown > 0) {
-            typewriter("Talona's Might: is on cooldown for " + this.skill3Cooldown + " turns.", 10);
+            typewriter("Talona's Might is on cooldown for " + this.skill3Cooldown + " turns.", 10);
         }
         System.out.println();
         typewriter(name + " - Health: " + health + "|" + maxHealth + " Mana: " + mana + "/" + maxMana, 10);
@@ -106,6 +106,11 @@ public class GoatedKit extends GameCharacter {
 
     @Override
     public void takeTurn(GameCharacter target) {
+        if (this.isStunned) {
+            typewriter(name + " is stunned and cannot act!", 30);
+            this.isStunned = false; // Stun wears off after missing a turn
+            return; // Skip turn
+        }
         typewriter("\nChoose a skill for " + name + ":", 30);
         typewriter("1) Kit Kit - 300 Base Damage - CD: " + skill1Cooldown, 30);
         typewriter("2) Rat Spot - Dodge All Attacks for 2 Turns - CD: " + skill2Cooldown, 30);

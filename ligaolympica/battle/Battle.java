@@ -48,11 +48,35 @@ public class Battle {
 
             while (attacker.isAlive() && defender.isAlive() && turn <= maxTurns) {
                 System.out.println("\n--- Turn " + turn + " ---");
+                System.out.println(attacker.getName() + "'s turn!");
+
+
+                if (attacker.isStunned()) {
+                    typewriter(attacker.getName() + " is stunned and cannot act!", 30);
+                    attacker.setStunned(false); // Clear stun after missing turn
+
+                    // Still update cooldowns and other effects
+                    attacker.updateTurnEffects();
+                    attacker.displayStats();
+                    System.out.println();
+
+                    typewriter(player1.getName() + " - HP: " + player1.getHealth() + "/" + player1.getMaxHealth()
+                        + " | " + player2.getName() + " - HP: " + player2.getHealth() + "/" + player2.getMaxHealth(), 10);
+
+                    attacker.restoreMana(150);
+                    defender.restoreMana(150);
+
+                    // Swap attacker/defender
+                    GameCharacter temp = attacker;
+                    attacker = defender;
+                    defender = temp;
+
+                    turn++;
+                    continue; // Skip to next turn
+                }
 
                 // Update cooldowns and buffs at the START of the character's turn
                 attacker.updateTurnEffects();
-
-                System.out.println(attacker.getName() + "'s turn!");
 
                 // Character acts: if defender is player2 and player2IsComputer is true, use autoTakeTurn for that character when they act
                 if (attacker == player2 && player2IsComputer) {
@@ -125,15 +149,38 @@ public class Battle {
             System.out.println("\n--- Turn " + turn + " ---");
             System.out.println(attacker.getName() + "'s turn!");
 
+            if (attacker.isStunned()) {
+                typewriter(attacker.getName() + " is stunned and cannot act!", 30);
+                attacker.setStunned(false); // Clear stun after missing turn
+
+                // Still update cooldowns and other effects
+                attacker.updateTurnEffects();
+                attacker.displayStats();
+                System.out.println();
+
+                typewriter(player1.getName() + " - HP: " + player1.getHealth() + "/" + player1.getMaxHealth()
+                    + " | " + player2.getName() + " - HP: " + player2.getHealth() + "/" + player2.getMaxHealth(), 10);
+
+                attacker.restoreMana(150);
+                defender.restoreMana(150);
+
+                // Swap attacker/defender
+                GameCharacter temp = attacker;
+                attacker = defender;
+                defender = temp;
+
+                turn++;
+                continue; // Skip to next turn
+            }
+
+            attacker.updateTurnEffects();
+
             // Character acts: if defender is player2 and player2IsComputer is true, use autoTakeTurn for that character when they act
             if (attacker == player2 && player2IsComputer) {
                 attacker.autoTakeTurn(defender);
             } else {
                 attacker.takeTurn(defender);
             }
-
-            // Update cooldowns and buffs
-            attacker.updateTurnEffects();
 
             // Show status
             attacker.displayStats();

@@ -78,13 +78,13 @@ public class Atalyn extends GameCharacter {
     @Override
     public void displayStats() {
             if(skill1Cooldown > 0) {
-                typewriter("Piercing Arrow: is on cooldown for " + this.skill1Cooldown + " turns.", 10);
+                typewriter("Piercing Arrow is on cooldown for " + this.skill1Cooldown + " turns.", 10);
             }
             if(skill2Cooldown > 0) {
-                typewriter("Hunter's Reflex: is on cooldown for " + this.skill2Cooldown + " turns.", 10);
+                typewriter("Hunter's Reflex is on cooldown for " + this.skill2Cooldown + " turns.", 10);
             }
             if(skill3Cooldown > 0) {
-                typewriter("Moonlit Mark: is on cooldown for " + this.skill3Cooldown + " turns.", 10);
+                typewriter("Moonlit Mark is on cooldown for " + this.skill3Cooldown + " turns.", 10);
             }
 
             System.out.println();
@@ -104,13 +104,17 @@ public class Atalyn extends GameCharacter {
     @Override
     public void restoreMana(int amount) {
         this.mana = Math.min(this.mana + amount, this.maxMana);
-
     }
 
     @Override
     public void takeTurn(GameCharacter target) {
+        if (this.isStunned) {
+            typewriter(name + " is stunned and cannot act!", 30);
+            this.isStunned = false; // Stun wears off after missing a turn
+            return; // Skip turn
+        }
         typewriter("\nChoose a skill for " + name + ":", 10);
-        typewriter("1) Piercing Arrow - 650 Base Damage - CD: " + skill1Cooldown, 10);
+        typewriter("1) Piercing Arrow - 360 Base Damage - CD: " + skill1Cooldown, 10);
         typewriter("2) Hunter's Reflex - Evade Next Attack - CD: " + skill2Cooldown, 10);
         typewriter("3) Moonlit Mark - Increase Damage by 50% - CD: " + skill3Cooldown, 10);
 

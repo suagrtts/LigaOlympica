@@ -6,7 +6,7 @@ public class SirKhai extends GameCharacter{
     public SirKhai(){
         super("SirKhai", """
                 GOAT, The one who controls all, including your mom.
-                Call him daddy.""", 
+                Call him daddy.""",
                 99999, 99999, "Skill 1: Tip of Ballpen - Gives you 1.0 if your mom is chopped. Deals emotional damage", "No need", "Null");
     }
 
@@ -46,6 +46,11 @@ public class SirKhai extends GameCharacter{
 
     @Override
     public void takeTurn(GameCharacter target){
+        if (this.isStunned) {
+            typewriter(name + " is stunned and cannot act!", 30);
+            this.isStunned = false; // Stun wears off after missing a turn
+            return; // Skip turn
+        }
         typewriter("Choose a skill for " + name + ": ", 20);
         typewriter("Skill 1: Tip of Ballpen, deals emotional damage", 20);
 
