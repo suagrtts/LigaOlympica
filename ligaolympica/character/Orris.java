@@ -46,7 +46,7 @@ public class Orris extends GameCharacter {
             this.useMana(110);
             this.skill2Cooldown = 3;
 
-            this.damageBonus = 0.8; // Absorb 20% of incoming damage
+            this.defenseBonus = 0.8; // Absorb 20% of incoming damage
             this.statusEffectTurns = 2; // Lasts for 2 turns
 
             typewriter(name + "'s shield rises, absorbing incoming damage for 2 turns!", 10);
@@ -92,9 +92,9 @@ public class Orris extends GameCharacter {
             }
     @Override
     public void takeDamage(int damage) {
-        // If Ocean's Shield is active, damageBonus will be < 1.0 and statusEffectTurns > 0
-        if (this.statusEffectTurns > 0 && this.damageBonus < 1.0) {
-            damage = (int)(damage * this.damageBonus);
+        // If Ocean's Shield is active, defenseBonus will be < 1.0 and statusEffectTurns > 0
+        if (this.statusEffectTurns > 0 && this.defenseBonus < 1.0) {
+            damage = (int)(damage * this.defenseBonus);
             typewriter(name + "'s Ocean's Shield absorbs part of the damage, reduced to " + damage + "!", 10);
         }
         super.takeDamage(damage);
@@ -148,12 +148,12 @@ public class Orris extends GameCharacter {
                     }
                     default -> {
                         typewriter("Invalid choice.", 5);
-                        scan.next();
+                        scan.nextLine();
                     }
                 }
             }catch(Exception e){
                 typewriter("Invalid input. Please enter a number between 1 and 3.", 5);
-                scan.next(); // clear invalid input
+                scan.nextLine(); // clear invalid input
             }
         }
     }

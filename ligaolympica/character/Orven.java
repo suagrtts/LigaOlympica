@@ -151,12 +151,12 @@ public class Orven extends GameCharacter {
                     }
                     default -> {
                         typewriter("Invalid choice.", 5);
-                        scan.next();
+                        scan.nextLine();
                     }
                 }
             }catch(Exception e){
                     typewriter("Invalid input. Please enter a number between 1 and 3.", 5);
-                    scan.next();
+                    scan.nextLine();
             }
         }
     }

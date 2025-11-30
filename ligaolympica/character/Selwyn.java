@@ -47,7 +47,7 @@ public class Selwyn extends GameCharacter {
             this.useMana(280);
             this.skill2Cooldown = 3;
 
-            this.damageBonus = 0.4; // Takes only 40% damage
+            this.defenseBonus = 0.4; // Takes only 40% damage
             this.statusEffectTurns = 1;
             typewriter("Respawn Shield activated! Next attack damage reduced by 60%!", 30);
         } else {
@@ -69,9 +69,6 @@ public class Selwyn extends GameCharacter {
             int baseDamage = 450;
             int damage = randomDamage(baseDamage, 25);
 
-            // Ignore 30% of defenses (simulated by 30% more damage)
-            damage += (int)(damage * 0.30);
-
             typewriter("Exploiting reality's vulnerabilities!", 30);
             typewriter("Dealt " + damage + " damage!", 10);
             target.takeDamage(damage);
@@ -82,10 +79,10 @@ public class Selwyn extends GameCharacter {
 
     @Override
     public void takeDamage(int damage) {
-        if (this.statusEffectTurns > 0 && this.damageBonus == 0.4) {
+        if (this.statusEffectTurns > 0 && this.defenseBonus == 0.4) {
             damage = (int)(damage * 0.4);
             typewriter(name + " blocks with Respawn Shield! Damage reduced to " + damage + "!", 10);
-            this.damageBonus = 1.0;
+            this.defenseBonus = 1.0;
             this.statusEffectTurns = 0;
         }
         super.takeDamage(damage);
@@ -153,12 +150,12 @@ public class Selwyn extends GameCharacter {
                     }
                     default -> {
                         typewriter("Invalid choice.", 10);
-                        scan.next();
+                        scan.nextLine();
                     }
                 }
             }catch(Exception e){
                 typewriter("Invalid input. Please enter a number between 1 and 3.", 5);
-                scan.next();
+                scan.nextLine();
             }
         }
     }

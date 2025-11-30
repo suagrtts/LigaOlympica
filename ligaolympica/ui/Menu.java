@@ -332,7 +332,7 @@ public class Menu {
 
         typewriter("\n=== ARCADE MODE START ===", 50);
         typewriter("Defeat all " + opponents.length + " opponents to win!", 30);
-        typewriter("========================\n", 50);
+        typewriter("=============================\n", 50);
 
         for (int i = 0; i < opponents.length; i++) {
             if (player.getHealth() <= 0) {

@@ -5,7 +5,6 @@ import ligaolympica.character.GameCharacter;
 public class Battle {
     private final GameCharacter player1;
     private final GameCharacter player2;
-    private boolean battleEscaped = false;
 
     public Battle(GameCharacter player1, GameCharacter player2) {
         this.player1 = player1;
@@ -87,7 +86,6 @@ public class Battle {
                     attacker.takeTurn(defender);
 
                     if (attacker.hasEscaped()) {
-                        this.battleEscaped = true;
                         typewriter("\n" + attacker.getName() + " has fled the battle!", 10);
                         return false;  // ← Return false to indicate escape
                     }
@@ -191,7 +189,6 @@ public class Battle {
                 attacker.takeTurn(defender);
 
                 if (attacker.hasEscaped()) {
-                    this.battleEscaped = true;
                     typewriter("\n" + attacker.getName() + " has fled the battle!", 10);
                     return false;  // ← Return false to indicate escape
                 }

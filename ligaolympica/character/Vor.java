@@ -66,7 +66,7 @@ public class Vor extends GameCharacter {
             this.skill3Cooldown = 5;
 
             this.statusEffectTurns = 2;
-            this.damageBonus = 1.25;
+            this.attackBonus = 1.25;
 
             typewriter("KEITH'S LEGEND! Time is marked on the target - damage increased by 25% for 2 turns!", 30);
         } else {
@@ -137,12 +137,12 @@ public class Vor extends GameCharacter {
                     }
                     default -> {
                         typewriter("Invalid choice. Please enter 1, 2, or 3.", 5);
-                        scan.next(); // clear invalid input
+                        scan.nextLine(); // clear invalid input
                     }
                 }
             } catch (Exception e) {
                 typewriter("Invalid input. Please enter a number between 1 and 3.", 5);
-                scan.next(); // clear invalid input
+                scan.nextLine(); // clear invalid input
             }
         }
     }

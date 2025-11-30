@@ -16,7 +16,8 @@ public class GameCharacter implements CharacterInterface {
     protected String skill3;
 
     // Status effects
-    protected double damageBonus = 1.0;
+    protected double attackBonus = 1.0;
+    protected double defenseBonus = 1.0;
     protected int statusEffectTurns = 0;
 
     // Generic flags used by various characters
@@ -105,7 +106,7 @@ public class GameCharacter implements CharacterInterface {
         int maxDamage = baseDamage + variance;
         int damage = random.nextInt(maxDamage - minDamage + 1) + minDamage;
         damage = (int)(damage * (0.85 + (0.3 * random.nextDouble())));
-        damage = (int)(damage * damageBonus);
+        damage = (int)(damage * attackBonus);
         return damage;
     }
 
@@ -121,7 +122,8 @@ public class GameCharacter implements CharacterInterface {
         if (statusEffectTurns > 0) {
             statusEffectTurns--;
             if (statusEffectTurns == 0) {
-                damageBonus = 1.0;
+                attackBonus = 1.0;
+                defenseBonus = 1.0;
                 untargetable = false;
             }
         }
@@ -132,7 +134,8 @@ public class GameCharacter implements CharacterInterface {
         this.health = this.maxHealth;
         this.mana = this.maxMana;
         this.isAlive = true;
-        this.damageBonus = 1.0;
+        this.attackBonus = 1.0;
+        this.defenseBonus = 1.0;
         this.statusEffectTurns = 0;
         this.untargetable = false;
         this.isStunned = false;
@@ -147,17 +150,17 @@ public class GameCharacter implements CharacterInterface {
         if (!this.isAlive) return;
 
         // If untargetable, ignore damage
-        if (this.untargetable || this.damageBonus == 0.0) {
+        if (this.untargetable || this.attackBonus == 0.0) {
             typewriter(this.name + " evades the attack!", 5);
             return;
         }
 
         //Apply damage modifier if a status effect is active
-        if (this.statusEffectTurns > 0 && this.damageBonus != 1.0) {
-            damage = (int)(damage * this.damageBonus);
+        if (this.statusEffectTurns > 0 && this.defenseBonus != 1.0) {
+            damage = (int)(damage * this.defenseBonus);
 
             //Add feedback for damage reduction
-            if (this.damageBonus < 1.0) {
+            if (this.defenseBonus < 1.0) {
                 typewriter(this.name + " reduced the damage to " + damage, 10);
             }
         }

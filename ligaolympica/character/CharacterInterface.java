@@ -28,5 +28,4 @@ public interface CharacterInterface {
     void setStunned(boolean stunned);
     boolean hasEscaped();
     void setEscaped(boolean escaped);
-
 }

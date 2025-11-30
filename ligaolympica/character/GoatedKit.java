@@ -3,6 +3,7 @@ import java.util.*;
 
 public class GoatedKit extends GameCharacter {
     Scanner scan = new Scanner(System.in);
+    private boolean nextAttackEvaded = false;
 
     public GoatedKit() {
         super("Goated Kit", """
@@ -29,8 +30,8 @@ public class GoatedKit extends GameCharacter {
             int baseDamage = 300;
             int damage = randomDamage(baseDamage, 20);
 
-            if(this.damageBonus > 1.0) {
-                damage = (int)(damage * this.damageBonus);
+            if(this.attackBonus > 1.0) {
+                damage = (int)(damage * this.attackBonus);
                 typewriter("Enhanced by Talona's Might!", 30);
             }
 
@@ -53,7 +54,7 @@ public class GoatedKit extends GameCharacter {
             this.useMana(250);
             this.skill2Cooldown = 4;
 
-            this.damageBonus = 0.0; // 100% dodge
+            this.nextAttackEvaded = true;
             this.statusEffectTurns = 2;
             typewriter("Becomes incredibly elusive! Dodging all attacks for 2 turns!", 30);
         } else {
@@ -72,7 +73,7 @@ public class GoatedKit extends GameCharacter {
             this.useMana(400);
             this.skill3Cooldown = 5;
 
-            this.damageBonus = 1.2;
+            this.attackBonus = 1.2;
             this.statusEffectTurns = 3;
             typewriter("TALONA'S MIGHT ACTIVATED! +20% bite damage for 3 turns!", 30);
         } else {
@@ -82,8 +83,9 @@ public class GoatedKit extends GameCharacter {
 
     @Override
     public void takeDamage(int damage) {
-        if (this.statusEffectTurns > 0 && this.damageBonus == 0.0) {
+        if (this.statusEffectTurns > 0 && this.nextAttackEvaded) {
             typewriter(name + " dodges the attack with Rat Spot!", 10);
+            this.nextAttackEvaded = false;
             return; // No damage taken
         }
         super.takeDamage(damage);
@@ -151,12 +153,12 @@ public class GoatedKit extends GameCharacter {
                     }
                     default -> {
                         typewriter("Invalid choice.", 10);
-                        scan.next();
+                        scan.nextLine();
                     }
                 }
             }catch(Exception e){
                 typewriter("Invalid input. Please enter a number between 1 and 3.", 5);
-                scan.next();
+                scan.nextLine();
             }
         }
     }

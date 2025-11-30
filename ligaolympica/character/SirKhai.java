@@ -34,20 +34,9 @@ public class SirKhai extends GameCharacter{
     }
 
     @Override
-    public void takeDamage(int damage) {
-        if (this.statusEffectTurns > 0 && this.damageBonus == 0.5) {
-            damage = (int)(damage * 0.5);
-            typewriter(name + " took " + damage + "!", 10);
-            this.damageBonus = 1.0;
-            this.statusEffectTurns = 0;
-        }
-        super.takeDamage(damage);
-    }
-
-    @Override
     public void takeTurn(GameCharacter target){
         typewriter("Choose a skill for " + name + ": ", 20);
-        typewriter("Skill 1: Tip of Ballpen, deals emotional damage", 20);
+        typewriter("1) Tip of Ballpen: deals emotional damage", 20);
         typewriter("0) Escape Battle", 20);
 
         boolean validChoice = false;
@@ -69,12 +58,12 @@ public class SirKhai extends GameCharacter{
                     }
                     default -> {
                         typewriter("Invalid choice. Get a job", 20);
-                        scan.next();
+                        scan.nextLine();
                     }
                 }
             }catch(InputMismatchException e){
                 typewriter("Choose 1 skill thats it, whats wrong wit you", 20);
-                scan.next();
+                scan.nextLine();
             }
         }
     }

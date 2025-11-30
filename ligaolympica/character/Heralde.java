@@ -46,7 +46,7 @@ public class Heralde extends GameCharacter {
             this.useMana(100);
             this.skill2Cooldown = 3;
 
-            this.damageBonus = 0.7; // Reduce incoming damage by 30%
+            this.defenseBonus = 0.7; // Reduce incoming damage by 30%
             this.statusEffectTurns = 2; // Lasts for 2 turns
 
             typewriter(name + "'s skin hardens, reducing incoming damage by 30% for 2 turns!", 10);
@@ -137,12 +137,12 @@ public class Heralde extends GameCharacter {
                     }
                     default -> {
                         typewriter("Invalid choice.", 5);
-                        scan.next();
+                        scan.nextLine();
                     }
                 }
             }catch(Exception e){
                 typewriter("Invalid input. Please enter a number between 1 and 3.", 5);
-                scan.next(); // clear invalid input
+                scan.nextLine(); // clear invalid input
             }
         }
     }

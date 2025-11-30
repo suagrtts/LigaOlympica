@@ -24,8 +24,6 @@ public class Achiron extends GameCharacter {
             int baseDamage = 400;
             int damage = randomDamage(baseDamage, 20); // ±20 damage variance
 
-            // 20% armor pierce effect
-            damage += (int)(damage * 0.20);
             typewriter("Armor piercing spear thrust!", 30);
             typewriter("Dealt " + damage + " damage to " + target.getName() + "!", 10);
             target.takeDamage(damage);
@@ -46,7 +44,7 @@ public class Achiron extends GameCharacter {
             this.skill2Cooldown = 3;
 
             // Reduce incoming damage by 50% for the next attack
-            this.damageBonus = 0.5;
+            this.defenseBonus = 0.5;
 
             this.statusEffectTurns = 1;
         } else {
@@ -66,7 +64,7 @@ public class Achiron extends GameCharacter {
             this.skill3Cooldown = 5;
 
             // +50% damage for 2 turns
-            this.damageBonus = 1.5;
+            this.attackBonus = 1.5;
             this.statusEffectTurns = 2;
             typewriter("WRATH OF ARES ACTIVATED! +50% damage for 2 turns!", 30);
         } else {
@@ -76,14 +74,15 @@ public class Achiron extends GameCharacter {
 
     @Override
     public void takeDamage(int damage) {
-        if (this.statusEffectTurns > 0 && this.damageBonus == 0.5) {
+        if (this.statusEffectTurns > 0 && this.defenseBonus == 0.5) {
             damage = (int)(damage * 0.5);
             typewriter(name + " blocks with Aegis Shield! Damage reduced to " + damage + "!", 10);
-            this.damageBonus = 1.0; // Reset damage bonus after blocking
+            this.defenseBonus = 1.0; // Reset damage bonus after blocking
             this.statusEffectTurns = 0; // Shield bash effect used up
         }
         super.takeDamage(damage);
     }
+
     @Override
     public void displayStats() {
             if(skill1Cooldown > 0) {
@@ -147,12 +146,12 @@ public class Achiron extends GameCharacter {
                     }
                     default -> {
                     typewriter("Invalid choice.", 10);
-                    scan.next();
+                    scan.nextLine();
                     }
                 }
             }catch(Exception e){
                 typewriter("Invalid input. Please enter a number between 1 and 3.", 5);
-                scan.next(); // clear invalid input
+                scan.nextLine(); // clear invalid input
             }
         }
     }

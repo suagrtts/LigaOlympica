@@ -141,12 +141,12 @@ public class Biji extends GameCharacter {
                     }
                     default -> {
                         typewriter("Invalid choice.", 10);
-                        scan.next();
+                        scan.nextLine();
                     }
                 }
             }catch(Exception e){
                 typewriter("Invalid input. Please enter a number between 1 and 3.", 5);
-                scan.next();
+                scan.nextLine();
             }
         }
     }

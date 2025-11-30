@@ -27,8 +27,6 @@ public class Atalyn extends GameCharacter {
             int baseDamage = 360;
             int damage = randomDamage(baseDamage, 18); // ±18 damage variance
 
-            // 20% armor pierce effect
-            damage += (int)(damage * 0.20);
             typewriter("The arrow cuts through the air in a perfect line!", 30);
             typewriter("Dealt " + damage + " damage to " + target.getName() + "!", 10);
 
@@ -68,7 +66,7 @@ public class Atalyn extends GameCharacter {
             this.skill3Cooldown = 5;
 
             this.statusEffectTurns = 2;
-            this.damageBonus = 1.5;
+            this.attackBonus = 1.5;
 
             typewriter("ARTEMIS' BLESSING! Moonlight marks the target - damage increased by 50% for 2 turns!", 30);
         } else {
@@ -154,12 +152,12 @@ public class Atalyn extends GameCharacter {
                     }
                     default -> {
                         typewriter("Invalid choice.", 5);
-                        scan.next();
+                        scan.nextLine();
                     }
                 }
             }catch(Exception e){
                 typewriter("Invalid input. Please enter a number between 1 and 3.", 5);
-                scan.next(); // clear invalid input
+                scan.nextLine(); // clear invalid input
             }
         }
     }
