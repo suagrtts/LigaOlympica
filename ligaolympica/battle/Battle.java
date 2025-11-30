@@ -129,11 +129,11 @@ public class Battle {
         // Announce match result
         if (wins1 > wins2) {
             typewriter("\n╔════════════════════════════╗", 0);
-            typewriter("   \t" + player1.getName() + " wins the match!        ", 0);
+            typewriter("    " + player1.getName() + " wins the match!        ", 0);
             typewriter("╚════════════════════════════╝", 0);
         } else if (wins2 > wins1) {
             typewriter("\n╔════════════════════════════╗", 0);
-            typewriter("   \t" + player2.getName() + " wins the match!        ", 0);
+            typewriter("    " + player2.getName() + " wins the match!        ", 0);
             typewriter("╚════════════════════════════╝", 0);
         } else {
             typewriter("\nThe match ended without a decisive winner.", 10);
@@ -218,12 +218,12 @@ public class Battle {
             typewriter("\nThe battle ended in a draw!", 10);
         } else if (player1.isAlive()) {
             typewriter("\n╔════════════════════════════╗", 0);
-            typewriter("   \t" + player1.getName() + " wins!        ", 0);
+            typewriter("      " + player1.getName() + " wins!        ", 0);
             typewriter("╚════════════════════════════╝", 0);
             System.out.println();
         } else {
             typewriter("\n╔════════════════════════════╗", 0);
-            typewriter("   \t" + player2.getName() + " wins!        ", 0);
+            typewriter("      " + player2.getName() + " wins!        ", 0);
             typewriter("╚════════════════════════════╝", 0);
             System.out.println();
         }
