@@ -47,7 +47,7 @@ public class SirKhai extends GameCharacter{
     @Override
     public void takeTurn(GameCharacter target){
         typewriter("Choose a skill for " + name + ": ", 20);
-        typewriter("Skill 1: Tip of Ballpen, deals emotional damage", 20);
+        typewriter("1) Tip of Ballpen: deals emotional damage", 20);
         typewriter("0) Escape Battle", 20);
 
         boolean validChoice = false;
