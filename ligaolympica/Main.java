@@ -5,7 +5,6 @@ import java.io.IOException;
 public class Main {
     public static void main(String[] args) {
         System.out.println("\n\n");
-        printStarBurst();
         printColorfulTitle();
         printOlympicRings();
 
@@ -35,8 +34,9 @@ public class Main {
 
         System.out.println("\n");
 
+        centerPrint("Press ENTER to start....", 10);
+
         // Epic call to action
-        printCallToAction();
 
         try {
             System.in.read();
@@ -44,24 +44,9 @@ public class Main {
         }
 
         // Transition effect
-        printTransition();
 
         Game game = new Game();
         game.start();
-    }
-
-    static void printStarBurst() {
-        String[] stars = {
-            "                    ✦       ✧       ★       ✧       ✦",
-            "                ✧       ★       ✦       ★       ✧",
-            "            ★       ✦       ✧       ✦       ★"
-        };
-
-        for (String line : stars) {
-            System.out.println(line);
-            try { Thread.sleep(100); } catch (InterruptedException e) {}
-        }
-        System.out.println();
     }
 
     static void printColorfulTitle() {
@@ -110,7 +95,7 @@ public class Main {
 
     static void printWarriorArt() {
         String[] warrior = {
-            "                              ⚔️  THE ARENA AWAITS  ⚔️",
+            "                                THE ARENA AWAITS  ",
             "",
             "                                  /\\    /\\",
             "                                 /  \\__/  \\",
@@ -135,11 +120,11 @@ public class Main {
     static void printTournamentBanner() {
         String[] banner = {
             "        ╔═══════════════════════════════════════════════════════════╗",
-            "        ║         ⚡ THE TOURNAMENT OF LEGENDS BEGINS ⚡           ║",
+            "        ║              THE TOURNAMENT OF LEGENDS BEGINS             ║",
             "        ║                                                           ║",
-            "        ║          🏆  Victory awaits the bold                      ║",
-            "        ║          ⚔️  Glory favors the brave                       ║",
-            "        ║          👑  The throne demands the strongest             ║",
+            "        ║                  Victory awaits the bold                  ║",
+            "        ║                  Glory favors the brave                   ║",
+            "        ║               The throne demands the strongest            ║",
             "        ║                                                           ║",
             "        ╚═══════════════════════════════════════════════════════════╝"
         };
@@ -153,13 +138,13 @@ public class Main {
     static void printCreatorsSection() {
         String[] creators = {
             "               ╔═══════════════════════════════════════════╗",
-            "               ║          FORGED BY LEGENDS:               ║",
+            "               ║             FORGED BY LEGENDS:            ║",
             "               ╠═══════════════════════════════════════════╣",
             "               ║                                           ║",
-            "               ║               ⚡ Rovpoli ⚡              ║",
-            "               ║               🔥 kd 🔥                   ║",
-            "               ║               ⭐ biji ⭐                 ║",
-            "               ║               ⚔️  selwyn ⚔️              ║",
+            "               ║                   Rovpoli                 ║",
+            "               ║                      kd                   ║",
+            "               ║                     biji                  ║",
+            "               ║                    selwyn                 ║",
             "               ║                                           ║",
             "               ╚═══════════════════════════════════════════╝"
         };
@@ -175,12 +160,12 @@ public class Main {
         System.out.println();
 
         String[] pulse = {
-            "              ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓",
-            "              ┃  ⚡ PRESS ENTER TO BEGIN YOUR DESTINY ⚡ ┃",
-            "              ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛"
+            "              ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓",
+            "              ┃     PRESS ENTER TO BEGIN YOUR DESTINY     ┃",
+            "              ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛"
         };
 
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 1; i++) {
             for (String line : pulse) {
                 System.out.println(line);
             }
@@ -197,9 +182,9 @@ public class Main {
     static void printTransition() {
         System.out.println("\n\n");
         String[] transition = {
-            "                    ⚡━━━━━━━━━━━━━━━━━━━━━━━━━━━━⚡",
+            "                    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
             "                       THE BATTLE BEGINS NOW!",
-            "                    ⚡━━━━━━━━━━━━━━━━━━━━━━━━━━━━⚡"
+            "                    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
         };
 
         for (String line : transition) {
